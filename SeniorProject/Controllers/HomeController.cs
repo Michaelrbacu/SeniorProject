@@ -1,25 +1,30 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using SeniorProject.Models;
+﻿using EmailDatabase.Models;
+using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
-namespace SeniorProject.Controllers
+namespace EmailDatabase.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private EmailContext emailContext { get; set; }
+        //private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(EmailContext emailContext)
         {
-            _logger = logger;
+            this.emailContext = emailContext;
         }
-
+        [Route("/")]
         public IActionResult Index()
         {
-            return View();
+            ViewBag.Active = "HomeIndex";
+            List<Email> emails = emailContext.Emails.ToList();
+            return View(emails);
         }
-
+        [Route("Privacy")]
         public IActionResult Privacy()
         {
+            ViewBag.Active = "HomePrivacy";
+            TempData["message"] = "This is from the Privacy Action";
             return View();
         }
 

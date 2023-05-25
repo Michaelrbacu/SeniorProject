@@ -1,0 +1,16 @@
+﻿@model Email
+
+@{
+    ViewData["Title"] = "Delete Page";
+}
+
+<h1>Delete the entry?</h1>
+<h2>Delete @Model.EmailAddress?</h2>
+
+<form asp-action="Delete" method="post">
+    <input type="hidden" asp-for="EmailId" />
+    <input type="hidden" asp-for="EmailAddress" />
+    <input type="hidden" asp-for="Password" />
+    <button type="submit" class="btn btn-primary">Yes</button>
+    <a asp-area="" asp-controller="Home" asp-action="Index" class="btn btn-primary">No</a>
+</form>

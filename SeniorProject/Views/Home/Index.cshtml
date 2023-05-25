@@ -1,8 +1,28 @@
-﻿@{
-    ViewData["Title"] = "Updated Home Page";
+﻿@model List<Email>
+@{
+    ViewData["Title"] = "Home Page";
+    ViewBag.Action = "HomeIndex";
 }
+<a asp-area="Admin" asp-controller="Email" asp-action="Add">Add</a>
+<table>
+    <thead>
+        <tr>
+            <th>Email Address</th>
+            <th>Password</th>
+            <th>Update</th>
+            <th>Delete</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (Email email in Model)
+        {
+            <tr>
+                <td>@email.EmailAddress</td>
+                <td>@email.Password</td>
+                <td><a asp-area="Admin" asp-controller="Email" asp-action="Edit" asp-route-id="@email.EmailId">Update</a></td>
+                <td><a asp-area="Admin" asp-controller="Email" asp-action="Delete" asp-route-id="@email.EmailId">Delete</a></td>
+            </tr>
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+        }
+    </tbody>
+</table>

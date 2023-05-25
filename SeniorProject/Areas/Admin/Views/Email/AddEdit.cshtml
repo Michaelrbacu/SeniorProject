@@ -1,0 +1,21 @@
+﻿@model Email
+@{
+    ViewData["Title"] = ViewData["AddEdit"] + " Page";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<form asp-action="AddEdit" method="post">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <div>
+        <label asp-for="EmailAddress" class="form-label">Email Address</label>
+        <input asp-for="EmailAddress" class="form-control" />
+    </div>
+    <div>
+        <label asp-for="Password" class="form-label">Password</label>
+        <input asp-for="Password" class="form-control" />
+    </div>
+    <input type="hidden" asp-for="EmailId" />
+    <button class="btn" type="submit">@ViewData["AddEdit"]</button>
+    <a asp-area="" asp-controller="Home" asp-action="Index">Cancel</a>
+</form>
