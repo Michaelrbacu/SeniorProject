@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using RequiredAttribute = Microsoft.Build.Framework.RequiredAttribute;
 
-namespace EmailDatabase.Models
+namespace SeniorProject.Models
 {
     public class RegisterModel
     {

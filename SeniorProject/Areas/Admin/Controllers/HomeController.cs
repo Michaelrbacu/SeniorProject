@@ -1,7 +1,7 @@
-﻿using EmailDatabase.Models;
+﻿using SeniorProject.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace EmailDatabase.Areas.Admin.Controllers
+namespace SeniorProject.Areas.Admin.Controllers
 {
     [Area("Admin")]
     public class HomeController : Controller

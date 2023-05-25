@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace EmailDatabase.Migrations
+namespace SeniorProject.Migrations
 {
     /// <inheritdoc />
     public partial class Login : Migration

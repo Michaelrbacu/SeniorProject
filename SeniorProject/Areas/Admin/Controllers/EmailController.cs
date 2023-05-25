@@ -1,9 +1,9 @@
-﻿using EmailDatabase.Models;
+﻿using SeniorProject.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using StackExchange.Redis;
 
-namespace EmailDatabase.Areas.Admin.Controllers
+namespace SeniorProject.Areas.Admin.Controllers
 {
 
 

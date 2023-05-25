@@ -1,8 +1,8 @@
-﻿using EmailDatabase.Models;
+﻿using SeniorProject.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
-namespace EmailDatabase.Controllers
+namespace SeniorProject.Controllers
 {
     public class HomeController : Controller
     {

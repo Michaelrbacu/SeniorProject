@@ -1,4 +1,4 @@
-using EmailDatabase.Models;
+using SeniorProject.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 

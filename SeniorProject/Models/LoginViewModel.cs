@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 
-namespace EmailDatabase.Models
+namespace SeniorProject.Models
 {
     public class LoginViewModel
     {

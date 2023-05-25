@@ -1,4 +1,4 @@
-namespace EmailDatabase.Models
+namespace SeniorProject.Models
 {
     public class ErrorViewModel
     {
