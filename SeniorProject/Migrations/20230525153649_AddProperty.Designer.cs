@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SeniorProject.Models;
 
@@ -11,9 +12,11 @@ using SeniorProject.Models;
 namespace SeniorProject.Migrations
 {
     [DbContext(typeof(EmailContext))]
-    partial class EmailContextModelSnapshot : ModelSnapshot
+    [Migration("20230525153649_AddProperty")]
+    partial class AddProperty
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
