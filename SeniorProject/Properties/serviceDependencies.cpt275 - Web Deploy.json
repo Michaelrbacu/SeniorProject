@@ -2,7 +2,7 @@
   "dependencies": {
     "mssql1": {
       "secretStore": "AzureAppSettings",
-      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourcegroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/seniorprojectdbserver/databases/SeniorProject_db",
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourcegroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/seniorprojectdbserver/databases/SeniorProject",
       "type": "mssql.azure",
       "connectionId": "ConnectionStrings:EmailContext",
       "dynamicId": null
