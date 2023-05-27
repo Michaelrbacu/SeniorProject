@@ -20,10 +20,24 @@ namespace SeniorProject.Controllers
             List<Email> emails = emailContext.Emails.ToList();
             return View(emails);
         }
-        [Route("Privacy")]
-        public IActionResult Privacy()
+        [Route("ContactUs")]
+        public IActionResult ContactUs()
         {
-            ViewBag.Active = "HomePrivacy";
+            ViewBag.Active = "HomeContactUs";
+            TempData["message"] = "This is from the Privacy Action";
+            return View();
+        }
+        [Route("GetInvo")]
+        public IActionResult GetInvo()
+        {
+            ViewBag.Active = "HomeGetInvo";
+            TempData["message"] = "This is from the Privacy Action";
+            return View();
+        }
+        [Route("Donation")]
+        public IActionResult Donation()
+        {
+            ViewBag.Active = "HomeDonate";
             TempData["message"] = "This is from the Privacy Action";
             return View();
         }
