@@ -24,21 +24,18 @@ namespace SeniorProject.Controllers
         public IActionResult ContactUs()
         {
             ViewBag.Active = "HomeContactUs";
-            TempData["message"] = "This is from the Privacy Action";
             return View();
         }
-        [Route("GetInvo")]
-        public IActionResult GetInvo()
+        [Route("GetInvolved")]
+        public IActionResult GetInvolved()
         {
-            ViewBag.Active = "HomeGetInvo";
-            TempData["message"] = "This is from the Privacy Action";
+            ViewBag.Active = "GetInvolved";
             return View();
         }
         [Route("Donation")]
         public IActionResult Donation()
         {
             ViewBag.Active = "HomeDonate";
-            TempData["message"] = "This is from the Privacy Action";
             return View();
         }
 

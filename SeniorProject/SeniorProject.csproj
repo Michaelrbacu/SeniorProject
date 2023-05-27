@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="Views\Home\getinvo.cshtml" />
+    <Content Remove="Views\Home\GetInvolved.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -32,7 +32,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Views\Home\getinvo.cshtml" />
+    <None Include="Views\Home\GetInvolved.cshtml" />
   </ItemGroup>
 
 </Project>
