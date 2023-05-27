@@ -26,7 +26,10 @@
             <p>There are many ways to get involved with the Earthcare Initiative:</p>
             <ul>
                 <li><a href="#">Volunteer</a></li>
-                <li><a href="#">Donate</a></li>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link @(ViewBag.Active == "HomeDonate" ? " active" : "")" asp-area="" asp-controller="Home" asp-action="Donation">Donate</a>
+                </li>
             </ul>
             <p>Whatever your skills, interests, or availability, we welcome your support and participation. Together, we can make a difference!</p>
             <a href="#" class="button">Sign Up Now</a>

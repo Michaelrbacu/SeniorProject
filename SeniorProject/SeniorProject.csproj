@@ -7,10 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="Views\Home\GetInvolved.cshtml" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Content Include="Areas\Admin\Controllers\AccountController.cs" />
     <Content Include="Areas\Admin\Controllers\EmailController.cs" />
     <Content Include="Areas\Admin\Controllers\HomeController.cs" />
@@ -29,10 +25,6 @@
 
   <ItemGroup>
     <Folder Include="Migrations\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="Views\Home\GetInvolved.cshtml" />
   </ItemGroup>
 
 </Project>
