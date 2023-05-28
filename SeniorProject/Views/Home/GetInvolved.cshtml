@@ -4,49 +4,136 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="get.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #fff;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            grid-gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 28px;
+        }
+
+        main {
+            grid-column: 1 / -1;
+        }
+
+        section {
+            margin-bottom: 30px;
+        }
+
+        h2 {
+            font-size: 24px;
+        }
+
+        p {
+            line-height: 1.5;
+        }
+
+        ul {
+            list-style-type: disc;
+            padding-left: 20px;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #333;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 4px;
+        }
+
+        .testimonial {
+            background-color: #f9f9f9;
+            border-radius: 4px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+            .testimonial p {
+                margin-bottom: 10px;
+            }
+
+        .author {
+            font-style: italic;
+        }
+
+        iframe {
+            width: 100%;
+            height: 400px;
+            border: 0;
+        }
+
+        footer {
+            background-color: #333;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+    </style>
     <title>Get Involved</title>
 </head>
 <body>
-
     <header>
         <img src="https://i.ibb.co/nmGwm5K/Untitled.png" alt="WebBuilders Logo" width="100" height="100">
-
-
-
         <h1>Earthcare Initiative</h1>
-
     </header>
-    <main>
-        <section id="mission">
-            <h2>Our Mission</h2>
-            <p>The Earthcare Initiative is dedicated to preserving the environment and promoting sustainability through education, advocacy, and action. We believe that by working together, we can make a positive impact on the planet and create a better future for generations to come.</p>
-        </section>
-        <section id="get-involved">
-            <h2>Get Involved</h2>
-            <p>There are many ways to get involved with the Earthcare Initiative:</p>
-            <ul>
-                <li><a href="#">Volunteer</a></li>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link @(ViewBag.Active == "HomeDonate" ? " active" : "")" asp-area="" asp-controller="Home" asp-action="Donation">Donate</a>
-                </li>
-            </ul>
-            <p>Whatever your skills, interests, or availability, we welcome your support and participation. Together, we can make a difference!</p>
-            <a href="#" class="button">Sign Up Now</a>
-        </section>
-        <section id="testimonials">
-            <h2>Testimonials</h2>
-            <div class="testimonial2">
-                <p>"Volunteering with the Earthcare Initiative has been one of the most rewarding experiences of my life. I've learned so much about the environment and met some amazing people along the way."</p>
-                <p class="author">- Jane Doe, Volunteer</p>
-            </div>
-            <div class="testimonial2">
-                <p>"I donate to the Earthcare Initiative because I believe in their mission and the positive impact they are making on the planet. Every little bit helps!"</p>
-                <p class="author">- John Smith, Donor</p>
-            </div>
-        </section>
-        <iframe src="https://calendar.google.com/calendar/embed?src=289a212cb9e2435a2e1b6a1e76993444d9168fbd4675e380c1075a048136cb1a%40group.calendar.google.com&ctz=America%2FNew_York" style="border: 0" width="800" height="600" frameborder="0" scrolling="no"></iframe>
-    </main>
+
+    <div class="container">
+        <main>
+            <section id="mission">
+                <h2>Our Mission</h2>
+                <p>The Earthcare Initiative is dedicated to preserving the environment and promoting sustainability through education, advocacy, and action. We believe that by working together, we can make a positive impact on the planet and create a better future for generations to come.</p>
+            </section>
+
+            <section id="get-involved">
+                <h2>Get Involved</h2>
+                <p>There are many ways to get involved with the Earthcare Initiative:</p>
+                <ul>
+                    <li><a href="#">Volunteer</a></li>
+                    <li><a href="#">Donate</a></li>
+                </ul>
+                <p>Whatever your skills, interests, or availability, we welcome your support and participation. Together, we can make a difference!</p>
+                <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdxVXu36bEfUsgCfiF_imaN99mEChdeOVXsP1DranqcpE5w6g/viewform?embedded=true" width="640" height="1118" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
+                <iframe src="https://calendar.google.com/calendar/embed?src=289a212cb9e2435a2e1b6a1e76993444d9168fbd4675e380c1075a048136cb1a%40group.calendar.google.com&ctz=America%2FNew_York" style="border: 0" width="800" height="600" frameborder="0" scrolling="no"></iframe>
+            </section>
+        </main>
+
+        <aside>
+            <section id="testimonials">
+                <h2>Testimonials</h2>
+                <div class="testimonial">
+                    <p>"Volunteering with the Earthcare Initiative has been one of the most rewarding experiences of my life. I've learned so much about the environment and met some amazing people along the way."</p>
+                    <p class="author">- Jane Doe, Volunteer</p>
+                </div>
+                <div class="testimonial">
+                    <p>"I donate to the Earthcare Initiative because I believe in their mission and the positive impact they are making on the planet. Every little bit helps!"</p>
+                    <p class="author">- John Smith, Donor</p>
+                </div>
+            </section>
+        </aside>
+    </div>
+
     <footer>
         <p>&copy; 2023 Earthcare Initiative. All rights reserved.</p>
     </footer>

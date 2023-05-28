@@ -1,36 +1,91 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="stylesheet" href="contact.css">
-	<title>Contact Us</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="contact.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 28px;
+        }
+
+        .contact {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+        }
+
+        form {
+            display: grid;
+            grid-gap: 10px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+            input[type="submit"] {
+                background-color: #333;
+                color: #fff;
+                border: none;
+                cursor: pointer;
+                padding: 10px 20px;
+                border-radius: 4px;
+            }
+
+                input[type="submit"]:hover {
+                    background-color: #555;
+                }
+    </style>
+    <title>Contact Us</title>
 </head>
 <body>
+    <header>
+        <img src="https://i.ibb.co/nmGwm5K/Untitled.png" alt="WebBuilders Logo" width="100" height="100">
+        <h1>Earthcare Initiative</h1>
+    </header>
 
-	<header>
-		<img src="https://i.ibb.co/nmGwm5K/Untitled.png" alt="WebBuilders Logo" width="100" height="100">
+    <div class="contact">
+        <h1>Contact Us</h1>
+        <form action="mailto:email@example.com" method="post" enctype="text/plain">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
 
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
 
+            <label for="message">Message:</label>
+            <textarea id="message" name="message" rows="4" required></textarea>
 
-		<h1>Earthcare Initiative</h1>
-
-	</header>
-
-	<div class="contact">
-		<h1>Contact Us</h1>
-		<form action="mailto:email@example.com" method="post" enctype="text/plain">
-			<label for="name">Name:</label>
-			<input type="text" id="name" name="name" required>
-
-			<label for="email">Email:</label>
-			<input type="email" id="email" name="email" required>
-			<br />
-			<label for="message">Message:</label>
-			<textarea id="message" name="message" rows="4" required></textarea>
-
-			<input type="submit" value="Send">
-		</form>
-	</div>
+            <input type="submit" value="Send">
+        </form>
+    </div>
 </body>
 </html>
