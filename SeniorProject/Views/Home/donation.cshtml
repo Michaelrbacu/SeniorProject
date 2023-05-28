@@ -1,32 +1,41 @@
-﻿<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="donation.css">
-    <title>Donate or Volunteer | Earthcare Initiative</title>
-</head>
-<body>
+﻿@model List<Donation>
 
-    <header>
-        <img src="https://i.ibb.co/nmGwm5K/Untitled.png" alt="WebBuilders Logo" width="100" height="100">
+<h2>Donate</h2>
 
-    </header>
+<!-- Form to submit donation -->
+<form asp-action="Submit" method="post">
+    <label for="Name">Name:</label>
+    <input type="text" id="Name" name="Name" required>
+    <br />
 
+    <label for="Email">Email:</label>
+    <input type="email" id="Email" name="Email" required>
+    <br />
 
-    <main>
-        <section>
-            <h2>Donate</h2>
-            <p>Your donation helps us continue our mission of promoting sustainability and protecting the environment. Choose an amount to donate:</p>
-            <form>
-                <label for="amount">$</label>
-                <input type="number" id="amount" name="amount" min="1" step="1">
-                <button type="submit">Donate Now</button>
-            </form>
-        </section>
-    </main>
-    <footer>
-        <p>&copy; 2023 Earthcare Initiative. All rights reserved.</p>
-    </footer>
-</body>
-</html>
+    <label for="Amount">Amount:</label>
+    <input type="number" id="Amount" name="Amount" min="1" step="0.01" required>
+    <br />
+
+    <button type="submit">Donate Now</button>
+</form>
+
+<!-- Table to display donations -->
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Amount</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var donation in Model)
+        {
+            <tr>
+                <td>@donation.Name</td>
+                <td>@donation.Email</td>
+                <td>@donation.Amount</td>
+            </tr>
+        }
+    </tbody>
+</table>

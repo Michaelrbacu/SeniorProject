@@ -1,6 +1,7 @@
 using SeniorProject.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using SeniorProject.Migrations;
 
 var builder = WebApplication.CreateBuilder(args);
 

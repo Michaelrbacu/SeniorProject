@@ -9,7 +9,7 @@ namespace SeniorProject.Models
     {
         public EmailContext(DbContextOptions<EmailContext> options) : base(options) { }
         public DbSet<Email> Emails { get; set; }
-
+        public DbSet<Donation> Donations { get; set; }
         public static async Task CreateTheAdmin(IServiceProvider serviceProvider)
         {
             RoleManager<IdentityRole> roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
@@ -36,6 +36,7 @@ namespace SeniorProject.Models
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
             modelBuilder.Entity<Email>().HasData(
                 new Email
                 {
@@ -49,8 +50,21 @@ namespace SeniorProject.Models
                     EmailAddress = "def@123.com",
                     Password = "asdfasdfasdf"
                 }
-                );
+            );
+
+            modelBuilder.Entity<Donation>().HasData(
+                new Donation
+                {
+                    Id = -1, // Use a negative value for the Id property
+                    Name = "test",
+                    Email = "def@123.com",
+                    Amount = 1
+                }
+            );
         }
+
+
+
 
     }
 }

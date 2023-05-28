@@ -220,6 +220,39 @@ namespace SeniorProject.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("SeniorProject.Models.Donation", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Donations");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = -1,
+                            Amount = 1m,
+                            Email = "def@123.com",
+                            Name = "test"
+                        });
+                });
+
             modelBuilder.Entity("SeniorProject.Models.Email", b =>
                 {
                     b.Property<int>("EmailId")
