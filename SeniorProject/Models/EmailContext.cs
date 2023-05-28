@@ -1,7 +1,8 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using System;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System.Data.Common;
 
 namespace SeniorProject.Models
 {
@@ -37,6 +38,12 @@ namespace SeniorProject.Models
         {
             base.OnModelCreating(modelBuilder);
 
+            modelBuilder.Entity<Donation>(entity =>
+            {
+                entity.Property(e => e.Amount)
+                    .HasColumnType("decimal(18,2)");
+            });
+
             modelBuilder.Entity<Email>().HasData(
                 new Email
                 {
@@ -55,13 +62,14 @@ namespace SeniorProject.Models
             modelBuilder.Entity<Donation>().HasData(
                 new Donation
                 {
-                    Id = -1, // Use a negative value for the Id property
+                    Id = 1,
                     Name = "test",
                     Email = "def@123.com",
                     Amount = 1
                 }
             );
         }
+
 
 
 

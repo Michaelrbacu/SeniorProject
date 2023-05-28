@@ -1,0 +1,16 @@
+﻿@*
+*@
+@{
+}
+@using SeniorProject.Models
+@model List<Donation>
+
+@foreach (var donation in Model)
+{
+    <div>
+        <p>Name: @donation.Name</p>
+        <p>Email: @donation.Email</p>
+        <p>Amount: @donation.Amount</p>
+        <hr>
+    </div>
+}

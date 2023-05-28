@@ -10,10 +10,15 @@ namespace SeniorProject.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DeleteData(
+                table: "Donations",
+                keyColumn: "Id",
+                keyValue: -1);
+
             migrationBuilder.InsertData(
                 table: "Donations",
                 columns: new[] { "Id", "Amount", "Email", "Name" },
-                values: new object[] { -1, 1m, "def@123.com", "test" });
+                values: new object[] { 1, 1m, "def@123.com", "test" });
         }
 
         /// <inheritdoc />
@@ -22,7 +27,12 @@ namespace SeniorProject.Migrations
             migrationBuilder.DeleteData(
                 table: "Donations",
                 keyColumn: "Id",
-                keyValue: -1);
+                keyValue: 1);
+
+            migrationBuilder.InsertData(
+                table: "Donations",
+                columns: new[] { "Id", "Amount", "Email", "Name" },
+                values: new object[] { -1, 1m, "def@123.com", "test" });
         }
     }
 }

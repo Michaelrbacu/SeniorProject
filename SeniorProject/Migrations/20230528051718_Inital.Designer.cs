@@ -12,7 +12,7 @@ using SeniorProject.Models;
 namespace SeniorProject.Migrations
 {
     [DbContext(typeof(EmailContext))]
-    [Migration("20230528045827_Inital")]
+    [Migration("20230528051718_Inital")]
     partial class Inital
     {
         /// <inheritdoc />
@@ -249,7 +249,7 @@ namespace SeniorProject.Migrations
                     b.HasData(
                         new
                         {
-                            Id = -1,
+                            Id = 1,
                             Amount = 1m,
                             Email = "def@123.com",
                             Name = "test"
