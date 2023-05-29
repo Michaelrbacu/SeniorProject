@@ -7,6 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Areas\Admin\Views\Account\ConfirmEmailFailure.cshtml" />
+    <Content Remove="Areas\Admin\Views\Account\ConfirmEmailSuccess.cshtml" />
+    <Content Remove="Areas\Admin\Views\Account\EmailConfirmationSent.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="Areas\Admin\Controllers\AccountController.cs" />
     <Content Include="Areas\Admin\Controllers\EmailController.cs" />
     <Content Include="Areas\Admin\Controllers\HomeController.cs" />
@@ -31,6 +37,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="Areas\Admin\Views\Account\ConfirmEmailFailure.cshtml" />
+    <None Include="Areas\Admin\Views\Account\EmailConfirmationSent.cshtml" />
+    <None Include="Areas\Admin\Views\Account\ConfirmEmailSuccess.cshtml" />
     <None Include="Areas\Admin\Views\Account\AccessDenied.cshtml" />
     <None Include="Areas\Admin\Views\Account\Login.cshtml" />
     <None Include="Areas\Admin\Views\Account\Register.cshtml" />

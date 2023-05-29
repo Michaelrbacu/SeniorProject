@@ -1,0 +1,15 @@
+﻿html
+Copy
+@{
+    ViewData["Title"] = "Email Confirmation Failed";
+}
+
+<div class="container">
+    <h2>Email Confirmation Failed</h2>
+    <p>
+        We were unable to confirm your email address. The confirmation link may have expired, or there may have been an error in the process. Please try requesting another confirmation email or contacting support for assistance.
+    </p>
+    <p>
+        <a href="@Url.Action("Register", "Account")">Return to the registration page.</a>
+    </p>
+</div>
