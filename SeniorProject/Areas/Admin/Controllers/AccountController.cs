@@ -31,7 +31,7 @@ namespace SeniorProject.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {
                 IdentityUser identityUser = new IdentityUser();
-                identityUser.UserName = model.UserName;
+                identityUser.UserName = model.Email;
                 IdentityResult identityResult = await UserManager.CreateAsync(identityUser, model.Password);
                 if(identityResult.Succeeded)
                 {
