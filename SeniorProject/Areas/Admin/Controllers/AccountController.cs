@@ -53,7 +53,7 @@ namespace SeniorProject.Areas.Admin.Controllers
                     await _emailSender.SendEmailAsync(model.Email, "Confirm your email", emailMessage);
 
                     // Redirect the user to the email confirmation sent page
-                    return View("EmailConfirmationSent");
+                    return RedirectToAction("EmailConfirmationSent");
                 }
 
                 foreach (var error in identityResult.Errors)
@@ -114,6 +114,12 @@ namespace SeniorProject.Areas.Admin.Controllers
 
             var result = await _userManager.ConfirmEmailAsync(user, code);
             return View(result.Succeeded ? "ConfirmEmailSuccess" : "ConfirmEmailFailure");
+        }
+
+        [HttpGet]
+        public IActionResult EmailConfirmationSent()
+        {
+            return View();
         }
 
         public IActionResult Index()
