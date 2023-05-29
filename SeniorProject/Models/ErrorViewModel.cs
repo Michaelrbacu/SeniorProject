@@ -1,4 +1,4 @@
-namespace SeniorProject.Models
+namespace AuthSystem.Models
 {
     public class ErrorViewModel
     {

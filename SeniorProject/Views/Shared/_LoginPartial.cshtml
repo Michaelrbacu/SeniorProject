@@ -1,0 +1,40 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using AuthSystem.Areas.Identity.Data
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+<ul class="navbar-nav">
+
+    
+                    
+                        <li class="nav-item">
+                            <a style="background-color: #333; color: #fff; padding: 14px 16px; text-decoration: none;" class="nav-link @(ViewBag.Active == "HomeIndex" ? " active" : "")" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a style="background-color: #333; color: #fff; padding: 14px 16px; text-decoration: none;" class="nav-link @(ViewBag.Active == "HomeContactUs" ? " active" : "")" asp-area="" asp-controller="Home" asp-action="ContactUs">Contact Us</a>
+                        </li>
+                        <li class="nav-item">
+                            <a style="background-color: #333; color: #fff; padding: 14px 16px; text-decoration: none;" class="nav-link @(ViewBag.Active == "GetInvolved" ? " active" : "")" asp-area="" asp-controller="Home" asp-action="GetInvolved">Get Involved</a>
+                        </li>
+                        <li class="nav-item">
+                            <a style="background-color: #333; color: #fff; padding: 14px 16px; text-decoration: none;" class="nav-link @(ViewBag.Active == "HomeDonate" ? " active" : "")" asp-area="" asp-controller="Home" asp-action="Donation">Donate</a>
+                        </li>
+                  
+    </ul>
+    
+        
+    
+
+@if (SignInManager.IsSignedIn(User))
+{
+    <li class="nav-item">
+        <a id="manage" class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @UserManager.GetUserName(User)!</a>
+    </li>
+    <li class="nav-item">
+        <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+            <button id="logout" type="submit" class="nav-link btn btn-link text-dark border-0">Logout</button>
+        </form>
+    </li>
+}
+</ul>

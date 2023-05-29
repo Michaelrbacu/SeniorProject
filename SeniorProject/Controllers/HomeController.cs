@@ -1,27 +1,26 @@
-﻿using SeniorProject.Models;
+﻿using AuthSystem.Areas.Identity.Data;
+using AuthSystem.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
-using Microsoft.EntityFrameworkCore;
-using SendGrid.Helpers.Mail;
 
-namespace SeniorProject.Controllers
+namespace AuthSystem.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
-        private EmailContext emailContext { get; set; }
+        private readonly ILogger<HomeController> _logger;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public HomeController(EmailContext emailContext)
+        public HomeController(ILogger<HomeController> logger,UserManager<ApplicationUser> userManager)
         {
-            this.emailContext = emailContext;
+            _logger = logger;
+            this._userManager = userManager;
         }
 
-        [Route("/")]
-        public IActionResult Index()
-        {
-            ViewBag.Active = "HomeIndex";
-            List<Email> emails = emailContext.Emails.ToList();
-            return View(emails);
-        }
+
+       
 
         [Route("ContactUs")]
         public IActionResult ContactUs()
@@ -43,22 +42,16 @@ namespace SeniorProject.Controllers
             ViewBag.Active = "HomeDonate";
             return View();
         }
-
-        [HttpPost]
-        public IActionResult donations(Donation donation)
+        public IActionResult Index()
         {
-            if (ModelState.IsValid)
-            {
-                ViewBag.Active = "donations";
-                emailContext.Donations.Add(donation);
-                emailContext.SaveChanges();
-                return View();
-            }
-            ViewBag.Active = "donations";
+            ViewData["UserID"]=_userManager.GetUserId(this.User);
             return View();
         }
 
-
+        public IActionResult Privacy()
+        {
+            return View();
+        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
