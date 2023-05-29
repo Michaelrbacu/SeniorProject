@@ -57,7 +57,7 @@ namespace SeniorProject.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {
                 
-                Microsoft.AspNetCore.Identity.SignInResult identityResult = await SignInManager.PasswordSignInAsync(model.UserName, model.Password, isPersistent: false, lockoutOnFailure: false);
+                Microsoft.AspNetCore.Identity.SignInResult identityResult = await SignInManager.PasswordSignInAsync(model.Email, model.Password, isPersistent: false, lockoutOnFailure: false);
                 if (identityResult.Succeeded)
                 {
                     return RedirectToAction("Index", "Home");
