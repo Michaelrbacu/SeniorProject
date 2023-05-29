@@ -8,7 +8,7 @@ namespace SeniorProject.Areas.Admin.Controllers
     [Area("Admin")]
     public class AccountController : Controller
     {
-        
+
         private UserManager<IdentityUser> UserManager { get; set; }
         private SignInManager<IdentityUser> SignInManager { get; set; }
 
@@ -33,7 +33,7 @@ namespace SeniorProject.Areas.Admin.Controllers
                 IdentityUser identityUser = new IdentityUser();
                 identityUser.UserName = model.UserName;
                 IdentityResult identityResult = await UserManager.CreateAsync(identityUser, model.Password);
-                if(identityResult.Succeeded)
+                if (identityResult.Succeeded)
                 {
                     await SignInManager.SignInAsync(identityUser, isPersistent: false);
                 }
@@ -56,14 +56,14 @@ namespace SeniorProject.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                
-                Microsoft.AspNetCore.Identity.SignInResult identityResult = await SignInManager.PasswordSignInAsync(model.Email, model.Password, isPersistent: false, lockoutOnFailure: false);
+
+                Microsoft.AspNetCore.Identity.SignInResult identityResult = await SignInManager.PasswordSignInAsync(model.UserName, model.Password, isPersistent: false, lockoutOnFailure: false);
                 if (identityResult.Succeeded)
                 {
                     return RedirectToAction("Index", "Home");
                 }
             }
-            ModelState.AddModelError("","Invalid Username/Password");
+            ModelState.AddModelError("", "Invalid Username/Password");
             return View();
         }
         public IActionResult AccessDenied()
@@ -75,7 +75,7 @@ namespace SeniorProject.Areas.Admin.Controllers
         public async Task<IActionResult> LogOut()
         {
             await SignInManager.SignOutAsync();
-                return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Home");
         }
 
 
