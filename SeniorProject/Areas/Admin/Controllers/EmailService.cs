@@ -1,31 +1,39 @@
 ﻿using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity.UI.Services;
-using System.Net.Mail;
+using Mandrill;
+using Mandrill.Models;
+using Mandrill.Requests.Messages;
+using Microsoft.Extensions.Configuration;
+using System.Collections.Generic;
+using Microsoft.AspNetCore.Mvc;
 
-namespace AuthSystem.Services
+namespace SeniorProject.Areas.Admin.Controllers
 {
-    public class EmailService : IEmailSender
+    [Area("Admin")]
+    public class EmailService
     {
-        private readonly SmtpClient _smtpClient;
+        private readonly IConfiguration _configuration;
 
-        public EmailService(SmtpClient smtpClient)
+        public EmailService(IConfiguration configuration)
         {
-            _smtpClient = smtpClient;
+            _configuration = configuration;
         }
 
-        public async Task SendEmailAsync(string email, string subject, string htmlMessage)
+        public async Task SendConfirmationEmailAsync(string email, string subject, string message)
         {
-            var mailMessage = new MailMessage
+            var apiKey = _configuration["Mailchimp:ApiKey"];
+            var mandrillApi = new MandrillApi(apiKey);
+
+            var emailMessage = new EmailMessage
             {
-                From = new MailAddress("your-email@example.com"), // Replace with your email address
+                To = new List<EmailAddress> { new EmailAddress { Email = email } },
+                FromEmail = "farhanmf1@my.gvltec.edu", // Replace with your own sender email
+                FromName = "EarthCare", // Replace with your app or company name
                 Subject = subject,
-                Body = htmlMessage,
-                IsBodyHtml = true
+                Html = message
             };
 
-            mailMessage.To.Add(email);
-
-            await _smtpClient.SendMailAsync(mailMessage);
+            var request = new SendMessageRequest(emailMessage);
+            await mandrillApi.SendMessage(request);
         }
     }
 }

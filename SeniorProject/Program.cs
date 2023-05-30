@@ -12,7 +12,7 @@ using Microsoft.Extensions.Hosting;
 using AuthSystem.Data;
 using AuthSystem.Areas.Identity.Data;
 using Microsoft.AspNetCore.Authentication.Facebook;
-
+using SeniorProject.Areas.Admin.Controllers; // Updated namespace import
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
@@ -42,6 +42,8 @@ builder.Services.Configure<IdentityOptions>(options =>
     options.Password.RequireUppercase = false;
 });
 
+builder.Services.AddTransient<EmailService>(); // Register the EmailService
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -55,6 +57,8 @@ app.UseRouting();
 
 app.UseAuthentication(); // Add this line to enable authentication middleware
 app.UseAuthorization();
+
+app.MapControllers(); // Add this line to enable MVC controllers
 
 app.MapControllerRoute(
     name: "default",

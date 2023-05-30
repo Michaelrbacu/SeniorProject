@@ -3,23 +3,26 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using SeniorProject.Models;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using System.Text.Encodings.Web;
+using SeniorProject.Areas.Admin.Controllers;
+using AuthSystem.Areas.Identity.Data; // Import the namespace for ApplicationUser
+
+
 
 namespace SeniorProject.Areas.Admin.Controllers
 {
     [Area("Admin")]
     public class AccountController : Controller
     {
-        private readonly UserManager<IdentityUser> _userManager;
-        private readonly SignInManager<IdentityUser> _signInManager;
-        private readonly IEmailSender _emailSender;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly EmailService _emailService;
 
-        public AccountController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, IEmailSender emailSender)
+        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, EmailService emailService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            _emailSender = emailSender;
+            _emailService = emailService;
         }
 
         [Route("[area]/[controller]/[action]")]
@@ -34,7 +37,7 @@ namespace SeniorProject.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                IdentityUser identityUser = new IdentityUser
+                ApplicationUser identityUser = new ApplicationUser
                 {
                     UserName = model.Email,
                     Email = model.Email
@@ -50,7 +53,7 @@ namespace SeniorProject.Areas.Admin.Controllers
                     // Customize the email message
                     var emailMessage = $"Please confirm your account by <a href='{UrlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.";
 
-                    await _emailSender.SendEmailAsync(model.Email, "Confirm your email", emailMessage);
+                    await _emailService.SendConfirmationEmailAsync(model.Email, "Confirm your email", emailMessage);
 
                     // Redirect the user to the email confirmation sent page
                     return RedirectToAction("EmailConfirmationSent");
