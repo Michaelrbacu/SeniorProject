@@ -13,6 +13,7 @@ using AuthSystem.Data;
 using AuthSystem.Areas.Identity.Data;
 using Microsoft.AspNetCore.Authentication.Facebook;
 using SeniorProject.Areas.Admin.Controllers; // Updated namespace import
+using SeniorProject.Services; // Import the namespace for EmailSender and EmailSettings
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
@@ -42,7 +43,9 @@ builder.Services.Configure<IdentityOptions>(options =>
     options.Password.RequireUppercase = false;
 });
 
-builder.Services.AddTransient<EmailService>(); // Register the EmailService
+// Register the EmailSender and configure EmailSettings
+builder.Services.AddTransient<EmailSender>(); // Register the EmailSender
+builder.Services.Configure<EmailSettings>(configuration.GetSection("EmailSettings")); // Configure EmailSettings from appsettings.json
 
 var app = builder.Build();
 

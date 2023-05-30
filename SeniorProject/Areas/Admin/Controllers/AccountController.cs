@@ -14,13 +14,13 @@ namespace SeniorProject.Areas.Admin.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly EmailService _emailService;
+        private readonly EmailSender _emailSender; // Change this line
 
-        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, EmailService emailService)
+        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, EmailSender emailSender) // Change this line
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            _emailService = emailService;
+            _emailSender = emailSender; // Change this line
         }
 
         [Route("[area]/[controller]/[action]")]
@@ -52,7 +52,7 @@ namespace SeniorProject.Areas.Admin.Controllers
                     string emailSubject = "Welcome to EarthCare";
                     string emailMessage = $"<h1>Welcome to EarthCare</h1><p>Thank you for joining our community! Please confirm your account by <a href='{UrlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.</p>";
 
-                    await _emailService.SendConfirmationEmailAsync(model.Email, emailSubject, emailMessage);
+                    await _emailSender.SendEmailAsync(model.Email, emailSubject, emailMessage); // Change this line
 
                     // Redirect the user to the email confirmation sent page
                     return RedirectToAction("EmailConfirmationSent");
