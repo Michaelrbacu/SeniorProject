@@ -1,9 +1,7 @@
 ﻿using System.Threading.Tasks;
-using Mandrill;
-using Mandrill.Models;
-using Mandrill.Requests.Messages;
 using Microsoft.Extensions.Configuration;
-using System.Collections.Generic;
+using System.Net;
+using System.Net.Mail;
 using Microsoft.AspNetCore.Mvc;
 
 namespace SeniorProject.Areas.Admin.Controllers
@@ -21,19 +19,29 @@ namespace SeniorProject.Areas.Admin.Controllers
         public async Task SendConfirmationEmailAsync(string email, string subject, string message)
         {
             var apiKey = _configuration["Mailchimp:ApiKey"];
-            var mandrillApi = new MandrillApi(apiKey);
+            var smtpUsername = _configuration["Mailchimp:SmtpUsername"];
+            var fromEmail = _configuration["Mailchimp:FromEmail"];
 
-            var emailMessage = new EmailMessage
+            // Configure the SMTP client
+            using (var smtpClient = new SmtpClient("smtp.mandrillapp.com", 587))
             {
-                To = new List<EmailAddress> { new EmailAddress { Email = email } },
-                FromEmail = "farhanmf1@my.gvltec.edu", // Replace with your own sender email
-                FromName = "EarthCare", // Replace with your app or company name
-                Subject = subject,
-                Html = message
-            };
+                smtpClient.UseDefaultCredentials = false;
+                smtpClient.Credentials = new NetworkCredential(smtpUsername, apiKey);
+                smtpClient.EnableSsl = true;
 
-            var request = new SendMessageRequest(emailMessage);
-            await mandrillApi.SendMessage(request);
+                // Create the email message
+                var fromAddress = new MailAddress(fromEmail, "EarthCare");
+                var to = new MailAddress(email);
+                var mailMessage = new MailMessage(fromAddress, to)
+                {
+                    Subject = subject,
+                    Body = message,
+                    IsBodyHtml = true,
+                };
+
+                // Send the email
+                await smtpClient.SendMailAsync(mailMessage);
+            }
         }
     }
 }
