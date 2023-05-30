@@ -48,6 +48,12 @@ namespace AuthSystem.Controllers
             ViewBag.Active = "HomeDonate";
             return View();
         }
+        [Route("Donated")]
+        public IActionResult Donated()
+        {
+            ViewBag.Active = "HomeDonated";
+            return View();
+        }
 
         public IActionResult Index()
         {
