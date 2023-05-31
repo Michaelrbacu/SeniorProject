@@ -64,6 +64,7 @@
     <None Include="Areas\Identity\Pages\_ViewStart.cshtml" />
     <None Include="Properties\serviceDependencies.local.json.user" />
     <None Include="Views\Home\contactus.cshtml" />
+    <None Include="Views\Home\Donated.cshtml" />
     <None Include="Views\Home\donation.cshtml" />
     <None Include="Views\Home\donations.cshtml" />
     <None Include="Views\Home\GetInvolved.cshtml" />

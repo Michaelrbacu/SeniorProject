@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 
 namespace SeniorProject.Models
@@ -13,7 +11,5 @@ namespace SeniorProject.Models
         [Required]
         [DataType(DataType.Password)]
         public string? Password { get; set; }
-
-        public IList<AuthenticationScheme> ExternalLoginProviders { get; set; }
     }
 }
