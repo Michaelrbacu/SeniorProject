@@ -6,7 +6,15 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="Areas\Admin\Donation\**" />
+    <Content Remove="Areas\Admin\Donation\**" />
+    <EmbeddedResource Remove="Areas\Admin\Donation\**" />
+    <None Remove="Areas\Admin\Donation\**" />
+  </ItemGroup>
+
 	<ItemGroup>
+		<PackageReference Include="bootstrap" Version="5.2.3" />
 		<PackageReference Include="MailChimp.NET" Version="1.1.92" />
 		<PackageReference Include="MailChimp.Net.V3" Version="5.5.0" />
 		<PackageReference Include="MailKit" Version="4.0.0" />
@@ -40,10 +48,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Areas\Admin\Donation\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Include="Areas\Admin\Views\Account\ConfirmEmailFailure.cshtml" />
     <None Include="Areas\Admin\Views\Account\EmailConfirmationSent.cshtml" />
     <None Include="Areas\Admin\Views\Account\ConfirmEmailSuccess.cshtml" />
@@ -66,9 +70,6 @@
     <None Include="Areas\Identity\Pages\_ViewStart.cshtml" />
     <None Include="Properties\serviceDependencies.local.json.user" />
     <None Include="Views\Home\contactus.cshtml" />
-    <None Include="Views\Home\Donated.cshtml" />
-    <None Include="Views\Home\donation.cshtml" />
-    <None Include="Views\Home\donations.cshtml" />
     <None Include="Views\Home\GetInvolved.cshtml" />
     <None Include="Views\Home\Index.cshtml" />
     <None Include="Views\Home\Privacy.cshtml" />

@@ -1,1 +1,76 @@
-﻿
+﻿@model IEnumerable<SeniorProject.Models.Donation>
+
+@{
+    ViewData["Title"] = "Donated";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Donated</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Amount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Timestamp)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Address)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Phone)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Message)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @if(Model != null)
+        {
+            @foreach (var donation in Model) {
+        <tr>
+            <td>
+                        @Html.DisplayFor(modelItem => donation.Name)
+            </td>
+            <td>
+                        @Html.DisplayFor(modelItem => donation.Email)
+            </td>
+            <td>
+                        @Html.DisplayFor(modelItem => donation.Amount)
+            </td>
+            <td>
+                        @Html.DisplayFor(modelItem => donation.Timestamp)
+            </td>
+            <td>
+                        @Html.DisplayFor(modelItem => donation.Address)
+            </td>
+            <td>
+                        @Html.DisplayFor(modelItem => donation.Phone)
+            </td>
+            <td>
+                        @Html.DisplayFor(modelItem => donation.Message)
+            </td>
+            <td>
+                        <a asp-action="Edit" asp-route-id="@donation.Id">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@donation.Id">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@donation.Id">Delete</a>
+            </td>
+        </tr>
+}
+        }
+        
+    </tbody>
+</table>
