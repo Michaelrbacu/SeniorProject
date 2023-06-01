@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 
+
 namespace SeniorProject.Models
 {
     public class LoginViewModel

@@ -1,5 +1,6 @@
 ﻿@page
 @model LoginModel
+@using Microsoft.AspNetCore.Authentication
 
 @{
     ViewData["Title"] = "Log in";
@@ -31,6 +32,13 @@
                 </div>
                 <div>
                     <button id="login-submit" type="submit" class="w-100 btn btn-lg btn-primary">Log in</button>
+                </div>
+                <hr />
+                <div class="text-center">
+                    <p>Or log in with:</p>
+                    <a asp-area="Identity" asp-controller="External" asp-action="Challenge" asp-route-provider="Google" asp-route-returnUrl="@Model.ReturnUrl" class="btn btn-outline-primary">
+                        <i class="fab fa-google"></i> Log in with Google
+                    </a>
                 </div>
             </form>
         </section>

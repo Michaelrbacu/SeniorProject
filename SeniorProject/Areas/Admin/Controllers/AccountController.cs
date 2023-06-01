@@ -5,16 +5,15 @@ using Microsoft.AspNetCore.Mvc;
 using SeniorProject.Models;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using System.Text.Encodings.Web;
+using System.Threading.Tasks; // Added this line
 
 namespace SeniorProject.Areas.Admin.Controllers
 {
     [Area("Admin")]
     public class AccountController : Controller
     {
-
         private UserManager<IdentityUser> UserManager { get; set; }
         private SignInManager<IdentityUser> SignInManager { get; set; }
-
 
         public AccountController(UserManager<IdentityUser> UserManager, SignInManager<IdentityUser> SignInManager)
         {
@@ -28,6 +27,7 @@ namespace SeniorProject.Areas.Admin.Controllers
         {
             return View();
         }
+
         [HttpPost]
         public async Task<IActionResult> Register(RegisterModel model)
         {
@@ -41,25 +41,25 @@ namespace SeniorProject.Areas.Admin.Controllers
                     await SignInManager.SignInAsync(identityUser, isPersistent: false);
                 }
                 return RedirectToAction("Index", "Home");
-
             }
             else
             {
                 return View(model);
             }
         }
+
         [Route("[area]/[controller]/[action]")]
         [HttpGet]
         public IActionResult Login()
         {
             return View();
         }
+
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
             if (ModelState.IsValid)
             {
-
                 Microsoft.AspNetCore.Identity.SignInResult identityResult = await SignInManager.PasswordSignInAsync(model.UserName, model.Password, isPersistent: false, lockoutOnFailure: false);
                 if (identityResult.Succeeded)
                 {
@@ -69,6 +69,7 @@ namespace SeniorProject.Areas.Admin.Controllers
             ModelState.AddModelError("", "Invalid Username/Password");
             return View();
         }
+
         public IActionResult AccessDenied()
         {
             return View();
@@ -80,8 +81,6 @@ namespace SeniorProject.Areas.Admin.Controllers
             await SignInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
         }
-
-
 
         public IActionResult Index()
         {
