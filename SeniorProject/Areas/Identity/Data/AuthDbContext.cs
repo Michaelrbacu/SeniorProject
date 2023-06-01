@@ -27,7 +27,7 @@ namespace AuthSystem.Data
                     Email = "def@123.com",
                     Amount = 1,
                     Address = "112Test Dr",
-                    Phone = 123-456-7890,
+                    Phone = 1234567890,
                     Message = "This is a test"
                 
                 });
