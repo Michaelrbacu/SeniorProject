@@ -5,7 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 using SeniorProject.Models;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using System.Text.Encodings.Web;
-using System.Threading.Tasks; // Added this line
+using System.Threading.Tasks;
+using SeniorProject.Services; // Added this line
 
 namespace SeniorProject.Areas.Admin.Controllers
 {
@@ -14,11 +15,13 @@ namespace SeniorProject.Areas.Admin.Controllers
     {
         private UserManager<IdentityUser> UserManager { get; set; }
         private SignInManager<IdentityUser> SignInManager { get; set; }
+        private readonly EmailSender _emailSender; // Added this line
 
-        public AccountController(UserManager<IdentityUser> UserManager, SignInManager<IdentityUser> SignInManager)
+        public AccountController(UserManager<IdentityUser> UserManager, SignInManager<IdentityUser> SignInManager, EmailSender emailSender) // Modified this line
         {
             this.UserManager = UserManager;
             this.SignInManager = SignInManager;
+            _emailSender = emailSender; // Added this line
         }
 
         [Route("[area]/[controller]/[action]")]
@@ -38,6 +41,11 @@ namespace SeniorProject.Areas.Admin.Controllers
                 IdentityResult identityResult = await UserManager.CreateAsync(identityUser, model.Password);
                 if (identityResult.Succeeded)
                 {
+                    // Send a welcome email to the user - Added this block
+                    string subject = "Welcome to Earth Care Initiative";
+                    string message = "Thank you for joining Earth Care Initiative! We are excited to have you on board.";
+                    await _emailSender.SendEmailAsync(model.Email, subject, message);
+
                     await SignInManager.SignInAsync(identityUser, isPersistent: false);
                 }
                 return RedirectToAction("Index", "Home");

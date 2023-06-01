@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using AuthSystem.Data;
 using AuthSystem.Areas.Identity.Data;
 using Microsoft.AspNetCore.Authentication.Google;
+using SeniorProject.Services;
+using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("AuthDbContextConnection") ?? throw new InvalidOperationException("Connection string 'AuthDbContextConnection' not found.");
@@ -28,6 +30,10 @@ builder.Services.Configure<IdentityOptions>(options =>
 {
     options.Password.RequireUppercase = false;
 });
+
+// Register the EmailSettings and EmailSender services
+builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
+builder.Services.AddSingleton<EmailSender>();
 
 var app = builder.Build();
 
