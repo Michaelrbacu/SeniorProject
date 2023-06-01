@@ -2,35 +2,36 @@
 using System.Net.Mail;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
-using SeniorProject.Services; // Import the namespace for EmailSettings
+using SeniorProject.Services;
 
-public class EmailSender
+namespace SeniorProject.Areas.Admin.Controllers
 {
-    private readonly EmailSettings _emailSettings;
-
-    public EmailSender(IOptions<EmailSettings> emailSettings)
+    public class EmailSender
     {
-        _emailSettings = emailSettings.Value;
-    }
+        private readonly EmailSettings _emailSettings;
 
-    public async Task SendEmailAsync(string email, string subject, string message)
-    {
-        using (var client = new SmtpClient(_emailSettings.Server, _emailSettings.Port))
+        public EmailSender(IOptions<EmailSettings> emailSettings)
         {
-            client.Credentials = new NetworkCredential(_emailSettings.Username, _emailSettings.Password);
-            client.EnableSsl = _emailSettings.UseSSL;
+            _emailSettings = emailSettings.Value;
+        }
 
-            var mailMessage = new MailMessage
+        public async Task SendEmailAsync(string email, string subject, string message)
+        {
+            using (var mailMessage = new MailMessage())
             {
-                From = new MailAddress(_emailSettings.SenderEmail, _emailSettings.SenderName),
-                Subject = subject,
-                Body = message,
-                IsBodyHtml = true
-            };
+                mailMessage.From = new MailAddress(_emailSettings.FromEmail, _emailSettings.FromName);
+                mailMessage.To.Add(new MailAddress(email));
+                mailMessage.Subject = subject;
+                mailMessage.Body = message;
+                mailMessage.IsBodyHtml = false;
 
-            mailMessage.To.Add(email);
-
-            await client.SendMailAsync(mailMessage);
+                using (var smtpClient = new SmtpClient(_emailSettings.Server, _emailSettings.Port))
+                {
+                    smtpClient.Credentials = new NetworkCredential(_emailSettings.Username, _emailSettings.Password);
+                    smtpClient.EnableSsl = _emailSettings.UseSSL;
+                    await smtpClient.SendMailAsync(mailMessage);
+                }
+            }
         }
     }
 }

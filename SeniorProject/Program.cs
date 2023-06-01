@@ -5,6 +5,8 @@ using AuthSystem.Areas.Identity.Data;
 using Microsoft.AspNetCore.Authentication.Google;
 using SeniorProject.Services;
 using Microsoft.Extensions.Options;
+using System.Net.Mail;
+using System.Net;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("AuthDbContextConnection") ?? throw new InvalidOperationException("Connection string 'AuthDbContextConnection' not found.");
@@ -22,10 +24,6 @@ builder.Services.AddAuthentication()
         options.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
     });
 
-// Add services to the container.
-builder.Services.AddControllersWithViews();
-builder.Services.AddRazorPages();
-
 builder.Services.Configure<IdentityOptions>(options =>
 {
     options.Password.RequireUppercase = false;
@@ -33,7 +31,7 @@ builder.Services.Configure<IdentityOptions>(options =>
 
 // Register the EmailSettings and EmailSender services
 builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
-builder.Services.AddSingleton<EmailSender>();
+builder.Services.AddTransient<EmailSender>();
 
 var app = builder.Build();
 
@@ -55,3 +53,33 @@ app.MapControllerRoute(
 app.MapRazorPages();
 
 app.Run();
+
+// Define the EmailSender class outside the WebApplication builder
+public class EmailSender
+{
+    private readonly EmailSettings _emailSettings;
+
+    public EmailSender(IOptions<EmailSettings> emailSettings)
+    {
+        _emailSettings = emailSettings.Value;
+    }
+
+    public async Task SendEmailAsync(string email, string subject, string message)
+    {
+        using (var mailMessage = new MailMessage())
+        {
+            mailMessage.From = new MailAddress(_emailSettings.FromEmail, _emailSettings.FromName);
+            mailMessage.To.Add(new MailAddress(email));
+            mailMessage.Subject = subject;
+            mailMessage.Body = message;
+            mailMessage.IsBodyHtml = false;
+
+            using (var smtpClient = new SmtpClient(_emailSettings.Server, _emailSettings.Port))
+            {
+                smtpClient.Credentials = new NetworkCredential(_emailSettings.Username, _emailSettings.Password);
+                smtpClient.EnableSsl = _emailSettings.UseSSL;
+                await smtpClient.SendMailAsync(mailMessage);
+            }
+        }
+    }
+}
