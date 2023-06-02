@@ -24,7 +24,7 @@ namespace SeniorProject.Models
 
         // Additional properties
         public string Address { get; set; }
-        public int? Phone { get; set; }
+        public string? Phone { get; set; }
         public string Message { get; set; }
     }
 }

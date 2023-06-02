@@ -65,22 +65,31 @@ public class EmailSender
         _emailSettings = emailSettings.Value;
     }
 
-    public async Task SendEmailAsync(string email, string subject, string message)
+    public async Task SendEmailAsync(string email, string subject, string messages)
     {
-        using (var mailMessage = new MailMessage())
+        try
         {
-            mailMessage.From = new MailAddress(_emailSettings.FromEmail, _emailSettings.FromName);
-            mailMessage.To.Add(new MailAddress(email));
-            mailMessage.Subject = subject;
-            mailMessage.Body = message;
-            mailMessage.IsBodyHtml = false;
 
-            using (var smtpClient = new SmtpClient(_emailSettings.Server, _emailSettings.Port))
-            {
-                smtpClient.Credentials = new NetworkCredential(_emailSettings.Username, _emailSettings.Password);
-                smtpClient.EnableSsl = _emailSettings.UseSSL;
-                await smtpClient.SendMailAsync(mailMessage);
-            }
+        MailAddress from = new MailAddress(_emailSettings.FromEmail, _emailSettings.FromName);
+        MailAddress to = new MailAddress(email);
+        MailMessage message = new MailMessage(from, to);
+        message.Body = messages;
+        message.Subject = subject;
+        message.IsBodyHtml = false;
+        string server = _emailSettings.Server;
+        SmtpClient client = new SmtpClient(server);
+        client.UseDefaultCredentials = Convert.ToBoolean("false");
+        client.DeliveryMethod = SmtpDeliveryMethod.Network;
+        client.Port = Convert.ToInt16(_emailSettings.Port);
+        client.EnableSsl = Convert.ToBoolean(_emailSettings.UseSSL);
+        client.Credentials = new NetworkCredential(_emailSettings.Username, _emailSettings.Password);
+        client.Timeout = Convert.ToInt16(9000);
+         await client.SendMailAsync(message);
+        }
+        catch (Exception ex)
+        {
+
+            throw;
         }
     }
 }

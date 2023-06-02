@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AuthSystem.Data;
+using Mandrill.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using SeniorProject.Areas.Admin.Controllers;
 using SeniorProject.Models;
 
 namespace SeniorProject.Controllers
@@ -13,10 +15,15 @@ namespace SeniorProject.Controllers
     {
         private readonly AuthDbContext _context;
 
-        public DonationController(AuthDbContext context)
+        private readonly EmailSender _emailSender;
+        public DonationController(AuthDbContext context, EmailSender emailSender)
         {
             _context = context;
+
+            _emailSender = emailSender;
         }
+
+        
 
         // GET: Donation/Create
         public IActionResult Create()
@@ -46,6 +53,7 @@ namespace SeniorProject.Controllers
         // GET: Donation/Donated
         public async Task<IActionResult> Donated()
         {
+            await _emailSender.SendEmailAsync("earthcareInitiative@outlook.com", "test subject", "Email mody test");
             // Retrieve all the donations from the database
             var donations = await _context.Donations.ToListAsync();
 
