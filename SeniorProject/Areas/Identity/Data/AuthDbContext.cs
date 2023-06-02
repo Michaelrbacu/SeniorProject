@@ -1,4 +1,5 @@
 ﻿using AuthSystem.Areas.Identity.Data;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using SeniorProject.Models;
@@ -14,6 +15,7 @@ namespace AuthSystem.Data
             : base(options)
         {
         }
+        
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

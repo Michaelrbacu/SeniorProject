@@ -7,6 +7,7 @@ using SeniorProject.Services;
 using Microsoft.Extensions.Options;
 using System.Net.Mail;
 using System.Net;
+using SeniorProject.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("AuthDbContextConnection") ?? throw new InvalidOperationException("Connection string 'AuthDbContextConnection' not found.");

@@ -11,7 +11,8 @@ namespace SeniorProject.Models
         public EmailContext(DbContextOptions<EmailContext> options) : base(options) { }
         public DbSet<Email> Emails { get; set; }
         public DbSet<Donation> Donations { get; set; }
-        public static async Task CreateTheAdmin(IServiceProvider serviceProvider)
+
+        /*public static async Task CreateTheAdmin(IServiceProvider serviceProvider)
         {
             RoleManager<IdentityRole> roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
             UserManager<IdentityUser> userManager = serviceProvider.GetRequiredService<UserManager<IdentityUser>>();
@@ -33,7 +34,7 @@ namespace SeniorProject.Models
                     await userManager.AddToRoleAsync(identityUser, roleName);
                 }
             }
-        }
+        }*/
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
