@@ -19,6 +19,10 @@ namespace AuthSystem.Data
         {
             base.OnModelCreating(builder);
 
+            builder.Entity<Donation>()
+                .Property(d => d.Amount)
+                .HasColumnType("decimal(18,2)");
+
             builder.Entity<Donation>().HasData(
                 new Donation
                 {
@@ -29,7 +33,6 @@ namespace AuthSystem.Data
                     Address = "112Test Dr",
                     Phone = 1234567890,
                     Message = "This is a test"
-                
                 });
         }
     }
