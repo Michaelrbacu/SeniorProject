@@ -16,6 +16,11 @@
                         </li>
                         <li class="nav-item">
                             <a style="background-color: #333; color: #fff; padding: 14px 16px; text-decoration: none;" class="nav-link @(ViewBag.Active == "GetInvolved" ? " active" : "")" asp-area="" asp-controller="Home" asp-action="GetInvolved">Get Involved</a>
+                        </li><li class="nav-item">
+                            <a style="background-color: #333; color: #fff; padding: 14px 16px; text-decoration: none;" class="nav-link @(ViewBag.Active == "GetInvolved" ? " active" : "")" asp-area="" asp-controller="Home" asp-action="GetInvolved">Get Involved</a>
+                        </li>
+                        <li class="nav-item">
+        <a style="background-color: #333; color: #fff; padding: 14px 16px; text-decoration: none;" class="nav-link @(ViewBag.Active == "EventsList" ? " active" : "")" asp-area="" asp-controller="Home" asp-action="EventsList">Events</a>
                         </li>
                         <li class="nav-item">
         <a style="background-color: #333; color: #fff; padding: 14px 16px; text-decoration: none;" class="nav-link @(ViewBag.Active == "HomeDonate" ? " active" : "")" asp-area="" asp-controller="Donation" asp-action="Create">Donate</a>
@@ -26,7 +31,7 @@
 
                   
     </ul>
-    
+    EventsList
         
     
 
@@ -49,6 +54,11 @@
     //admin@cpt275.beausanders.org
         //teamProjeck275!
 
-        <p>You are an Admin your views will appear slightly different to normal users.</p>
+        <p>ADMIN VIEW</p>
+
+        <li class="nav-item">
+            <a style="background-color: #333; color: #fff; padding: 14px 16px; text-decoration: none;" class="nav-link @(ViewBag.Active == "AddEvents" ? " active" : "")" asp-area="" asp-controller="Home" asp-action="AddEvents">Add Events</a>
+        </li>
+
     }
 </body>

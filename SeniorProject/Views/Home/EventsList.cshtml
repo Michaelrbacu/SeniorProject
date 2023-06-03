@@ -1,0 +1,45 @@
+﻿@model IEnumerable<SeniorProject.Models.Events>
+
+@{
+    ViewData["Title"] = "EventsList";
+    Layout = "~/Views/Shared/_LoginPartial.cshtml";
+}
+
+<h1>EventsList</h1>
+
+
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.EventName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EventStart)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EventEnd)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayNameFor(model => model.EventName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EventStart)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EventEnd)
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

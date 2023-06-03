@@ -30,6 +30,18 @@ namespace AuthSystem.Controllers
             ViewBag.Active = "HomeContactUs";
             return View();
         }
+        [Route("AddEvents")]
+        public IActionResult AddEvents()
+        {
+            ViewBag.Active = "AddEvents";
+            return View();
+        }
+        [Route("EventsList")]
+        public IActionResult EventsList()
+        {
+            ViewBag.Active = "EventsList";
+            return View();
+        }
 
         [Route("GetInvolved")]
         public IActionResult GetInvolved()

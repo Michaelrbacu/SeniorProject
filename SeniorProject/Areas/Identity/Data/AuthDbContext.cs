@@ -1,8 +1,10 @@
 ﻿using AuthSystem.Areas.Identity.Data;
+using MailChimp.Net.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using SeniorProject.Models;
+using ServiceStack.Text;
 using System.ComponentModel.DataAnnotations;
 
 namespace AuthSystem.Data
@@ -10,6 +12,8 @@ namespace AuthSystem.Data
     public class AuthDbContext : IdentityDbContext<ApplicationUser>
     {
         public DbSet<Donation> Donations { get; set; }
+
+        public DbSet<Events> Event { get; set; }
 
         public AuthDbContext(DbContextOptions<AuthDbContext> options)
             : base(options)
@@ -36,6 +40,14 @@ namespace AuthSystem.Data
                     Phone = "1234567890",
                     Message = "This is a test"
                 });
+            builder.Entity<Events>().HasData(
+            new Events
+            {
+                    EventId = 1,
+                    EventName = "test",
+                    EventStart = "2023-06-02",
+                    EventEnd = "2023-06-02"
+            });
         }
     }
 }
