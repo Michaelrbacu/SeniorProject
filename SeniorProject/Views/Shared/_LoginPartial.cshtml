@@ -59,6 +59,12 @@
         <li class="nav-item">
             <a style="background-color: #333; color: #fff; padding: 14px 16px; text-decoration: none;" class="nav-link @(ViewBag.Active == "AddEvents" ? " active" : "")" asp-area="" asp-controller="Home" asp-action="AddEvents">Add Events</a>
         </li>
+        <li class="nav-item">
+            <a style="background-color: #333; color: #fff; padding: 14px 16px; text-decoration: none;" class="nav-link @(ViewBag.Active == "AdminList" ? " active" : "")" asp-area="" asp-controller="Home" asp-action="AdminList">Admins</a>
+        </li>
+        <li class="nav-item">
+            <a style="background-color: #333; color: #fff; padding: 14px 16px; text-decoration: none;" class="nav-link @(ViewBag.Active == "CreateAdmin" ? " active" : "")" asp-area="" asp-controller="Home" asp-action="CreateAdmin">Create Admin</a>
+        </li>
 
     }
 </body>

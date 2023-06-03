@@ -42,6 +42,18 @@ namespace AuthSystem.Controllers
             ViewBag.Active = "EventsList";
             return View();
         }
+        [Route("AdminList")]
+        public IActionResult AdminList()
+        {
+            ViewBag.Active = "AdminList";
+            return View();
+        }
+        [Route("CreateAdmin")]
+        public IActionResult CreateAdmin()
+        {
+            ViewBag.Active = "CreateAdmin";
+            return View();
+        }
 
         [Route("GetInvolved")]
         public IActionResult GetInvolved()

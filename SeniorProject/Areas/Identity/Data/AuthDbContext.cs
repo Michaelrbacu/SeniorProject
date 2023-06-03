@@ -15,6 +15,8 @@ namespace AuthSystem.Data
 
         public DbSet<Events> Event { get; set; }
 
+        public DbSet<Admins> Admin { get; set; }
+
         public AuthDbContext(DbContextOptions<AuthDbContext> options)
             : base(options)
         {
@@ -47,6 +49,13 @@ namespace AuthSystem.Data
                     EventName = "test",
                     EventStart = "2023-06-02",
                     EventEnd = "2023-06-02"
+            });
+            builder.Entity<Admins>().HasData(
+            new Admins
+            {
+                AdminId = 1,
+                Email = "test",
+                
             });
         }
     }
