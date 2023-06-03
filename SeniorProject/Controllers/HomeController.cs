@@ -67,6 +67,8 @@ namespace AuthSystem.Controllers
             return View("Donated");
         }
 
+
+
         public IActionResult Index()
         {
             ViewData["UserID"]=_userManager.GetUserId(this.User);

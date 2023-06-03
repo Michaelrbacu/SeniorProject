@@ -40,14 +40,15 @@
             <button id="logout" type="submit" class="nav-link btn btn-link text-dark border-0">Logout</button>
         </form>
     </li>
-    if (UserManager.GetUserName(User) == "admin@cpt275.beausanders.org")
-    {
-        //admin@cpt275.beausanders.org
-        //teamProjeck275!
-        
-        <li class="nav-item">
-        <a style="background-color: #333; color: #fff; padding: 14px 16px; text-decoration: none;" class="nav-link @(ViewBag.Active == "HomeDonated" ? " active" : "")" asp-area="" asp-controller="Home" asp-action="Donated">Admin Donated</a>
-        </li>
-    }
+    
 }
 </ul>
+<body>
+    @if (UserManager.GetUserName(User) == "admin@cpt275.beausanders.org")
+    {
+    //admin@cpt275.beausanders.org
+        //teamProjeck275!
+
+        <p>You are an Admin your views will appear slightly different to normal users.</p>
+    }
+</body>

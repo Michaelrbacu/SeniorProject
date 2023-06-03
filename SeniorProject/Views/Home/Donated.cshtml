@@ -11,12 +11,13 @@
 
 <h1>Donated</h1>
 @if (UserManager.GetUserName(User) == "admin@cpt275.beausanders.org")
-    {
-<p>
-    <a asp-controller="Donation" asp-action="Create" class="btn btn-primary">Create New</a>
-</p>
-    }
-<table class="table">
+{
+    <p>
+        <a asp-controller="Donation" asp-action="Create" class="btn btn-primary">Create New</a>
+    </p>
+}
+
+<table class="table table-striped table-bordered">
     <thead>
         <tr>
             <th>
@@ -44,7 +45,7 @@
         </tr>
     </thead>
     <tbody>
-        @if (Model != null)
+        @if (UserManager.GetUserName(User) == "admin@cpt275.beausanders.org")
         {
             @foreach (var donation in Model)
             {
@@ -70,16 +71,101 @@
                     <td>
                         @Html.DisplayFor(modelItem => donation.Message)
                     </td>
-                    @if (UserManager.GetUserName(User) == "admin@cpt275.beausanders.org")
-                    {
-                        <td>
-                            <a asp-action="Edit" asp-route-id="@donation.Id">Edit</a> |
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@donation.Id">Edit</a> |
                         <a asp-action="Details" asp-route-id="@donation.Id">Details</a> |
                         <a asp-action="Delete" asp-route-id="@donation.Id">Delete</a>
                     </td>
+                </tr>
+            }
+        }
+        else
+        {
+            @foreach (var donation in Model)
+            {
+                <tr>
+                    @if (UserManager.GetUserName(User) == donation.Email)
+                    {
+                        <td>
+                            @Html.DisplayFor(modelItem => donation.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => donation.Email)
+                        </td>
+                        <td>
+                            @string.Format("{0:C}", donation.Amount)
+                        </td>
+                        <td>
+                            @donation.Timestamp.ToString("yyyy-MM-dd")
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => donation.Address)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => donation.Phone)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => donation.Message)
+                        </td>
                     }
                 </tr>
             }
         }
     </tbody>
 </table>
+
+<style>
+    h1 {
+        margin-top: 20px;
+        margin-bottom: 30px;
+        font-size: 24px;
+    }
+
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+        .table th,
+        .table td {
+            padding: 8px;
+            text-align: left;
+        }
+
+        .table th {
+            background-color: #f5f5f5;
+            font-weight: bold;
+        }
+
+    .table-striped tbody tr:nth-of-type(odd) {
+        background-color: #f9f9f9;
+    }
+
+    .btn {
+        display: inline-block;
+        padding: 8px 12px;
+        border: none;
+        border-radius: 4px;
+        color: #fff;
+        background-color: #007bff;
+        text-align: center;
+        cursor: pointer;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+    }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+        .btn-primary:active {
+            background-color: #004698;
+        }
+
+        .btn-primary:focus {
+            outline: none;
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.5);
+        }
+</style>
