@@ -1,11 +1,7 @@
 ﻿using AuthSystem.Areas.Identity.Data;
-using MailChimp.Net.Models;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using SeniorProject.Models;
-using ServiceStack.Text;
-using System.ComponentModel.DataAnnotations;
 
 namespace AuthSystem.Data
 {
@@ -15,13 +11,12 @@ namespace AuthSystem.Data
 
         public DbSet<Events> Event { get; set; }
 
-        public DbSet<Admins> Admin { get; set; }
+        public DbSet<Admin> Admin { get; set; }
 
         public AuthDbContext(DbContextOptions<AuthDbContext> options)
             : base(options)
         {
         }
-        
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -42,21 +37,22 @@ namespace AuthSystem.Data
                     Phone = "1234567890",
                     Message = "This is a test"
                 });
+
             builder.Entity<Events>().HasData(
-            new Events
-            {
+                new Events
+                {
                     EventId = 1,
                     EventName = "test",
                     EventStart = "2023-06-02",
                     EventEnd = "2023-06-02"
-            });
-            builder.Entity<Admins>().HasData(
-            new Admins
-            {
-                AdminId = 1,
-                Email = "test",
-                
-            });
+                });
+
+            builder.Entity<Admin>().HasData(
+                new Admin
+                {
+                    AdminId = 1,
+                    Email = "test@example.com",
+                });
         }
     }
 }

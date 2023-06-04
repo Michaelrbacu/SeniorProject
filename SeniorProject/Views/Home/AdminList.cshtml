@@ -1,34 +1,54 @@
-﻿@model IEnumerable<SeniorProject.Models.Admins>
+﻿@using SeniorProject.Areas.Admin.Models
+@model IEnumerable<SeniorProject.Areas.Admin.Models.AdminViewModel>
+
 
 @{
-    ViewData["Title"] = "AdminList";
-    Layout = "~/Views/Shared/_LoginPartial.cshtml";
+    ViewData["Title"] = "Admin List";
+    Layout = "~/Views/Shared/_Layout.cshtml"; // Update the layout file here
 }
 
-<h1>AdminList</h1>
+<h1>Admin List</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="CreateAdmin">Create New Admin</a>
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Email)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                <a asp-action="Delete" asp-route-id="@item.AdminId">Delete</a>
-            </td>
-        </tr>
+
+@if (Model != null)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.Name)</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                if (item != null)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                            <form asp-action="RevokeAdminAccess" method="post"
+                                  onclick="return confirm('Are you sure?')">
+                                <button type="submit">Revoke Admin Access</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
 }
-    </tbody>
-</table>
+
+@section Scripts {
+    <script>
+        $("form").validate({
+            rules: {
+                Email: "required"
+            }
+        });
+    </script>
+}
