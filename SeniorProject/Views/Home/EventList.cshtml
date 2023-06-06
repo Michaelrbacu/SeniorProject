@@ -7,10 +7,8 @@
 
 <h1>EventsList</h1>
 
-
-
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-controller="Event" asp-action="Create">Create New</a>
 </p>
 <table class="table">
     <thead>
@@ -28,18 +26,19 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayNameFor(model => model.EventName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EventStart)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EventEnd)
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EventName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EventStart)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EventEnd)
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

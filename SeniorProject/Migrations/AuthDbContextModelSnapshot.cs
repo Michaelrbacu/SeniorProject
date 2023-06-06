@@ -315,26 +315,26 @@ namespace SeniorProject.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EventId"));
 
-                    b.Property<string>("EventEnd")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime?>("EventEnd")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("EventName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("EventStart")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime?>("EventStart")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("EventId");
 
-                    b.ToTable("Event");
+                    b.ToTable("Events");
 
                     b.HasData(
                         new
                         {
                             EventId = 1,
-                            EventEnd = "2023-06-02",
+                            EventEnd = new DateTime(2023, 6, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             EventName = "test",
-                            EventStart = "2023-06-02"
+                            EventStart = new DateTime(2023, 6, 2, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         });
                 });
 

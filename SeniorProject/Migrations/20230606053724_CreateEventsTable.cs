@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace SeniorProject.Migrations
 {
     /// <inheritdoc />
-    public partial class First : Migration
+    public partial class CreateEventsTable : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -85,18 +85,18 @@ namespace SeniorProject.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Event",
+                name: "Events",
                 columns: table => new
                 {
                     EventId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     EventName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    EventStart = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    EventEnd = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    EventStart = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    EventEnd = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Event", x => x.EventId);
+                    table.PrimaryKey("PK_Events", x => x.EventId);
                 });
 
             migrationBuilder.CreateTable(
@@ -216,9 +216,9 @@ namespace SeniorProject.Migrations
                 values: new object[] { 1, "112Test Dr", 1m, "def@123.com", "This is a test", "test", "1234567890", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) });
 
             migrationBuilder.InsertData(
-                table: "Event",
+                table: "Events",
                 columns: new[] { "EventId", "EventEnd", "EventName", "EventStart" },
-                values: new object[] { 1, "2023-06-02", "test", "2023-06-02" });
+                values: new object[] { 1, new DateTime(2023, 6, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), "test", new DateTime(2023, 6, 2, 0, 0, 0, 0, DateTimeKind.Unspecified) });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -285,7 +285,7 @@ namespace SeniorProject.Migrations
                 name: "Donations");
 
             migrationBuilder.DropTable(
-                name: "Event");
+                name: "Events");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

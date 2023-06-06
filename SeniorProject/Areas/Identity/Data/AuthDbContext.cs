@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using SeniorProject.Models;
+using System;
 
 namespace AuthSystem.Data
 {
@@ -9,7 +10,7 @@ namespace AuthSystem.Data
     {
         public DbSet<Donation> Donations { get; set; }
 
-        public DbSet<Events> Event { get; set; }
+        public DbSet<Events> Events { get; set; }
 
         public DbSet<Admin> Admin { get; set; }
 
@@ -43,16 +44,15 @@ namespace AuthSystem.Data
                 {
                     EventId = 1,
                     EventName = "test",
-                    EventStart = "2023-06-02",
-                    EventEnd = "2023-06-02"
+                    EventStart = new DateTime(2023, 6, 2),
+                    EventEnd = new DateTime(2023, 6, 2)
                 });
-
             builder.Entity<Admin>().HasData(
-                new Admin
-                {
-                    AdminId = 1,
-                    Email = "test@example.com",
-                });
+    new Admin
+    {
+        AdminId = 1,
+        Email = "test@example.com",
+    });
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿using Microsoft.Build.Framework;
-using Microsoft.EntityFrameworkCore;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace SeniorProject.Models
@@ -9,9 +8,7 @@ namespace SeniorProject.Models
         [Key]
         public int EventId { get; set; }
         public string? EventName { get; set; }
-        public string? EventStart { get; set; }
-        public string? EventEnd { get; set; }
-
-
+        public DateTime? EventStart { get; set; }
+        public DateTime? EventEnd { get; set; }
     }
 }
