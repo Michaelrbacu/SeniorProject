@@ -1,6 +1,9 @@
 ﻿@model IEnumerable<SeniorProject.Models.Events>
 
-
+@{
+    ViewData["Title"] = "GetInvolved";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -100,29 +103,25 @@
 </head>
 
 <body>
-    <header>
-        <img src="https://i.ibb.co/nmGwm5K/Untitled.png" alt="WebBuilders Logo" width="100" height="100">
-        <h1>Earthcare Initiative</h1>
-    </header>
     <div id="calendar">
 
-    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js'></script>
-    <script>
+        <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js'></script>
+        <script>
 
-        document.addEventListener('DOMContentLoaded', function () {
-            var calendarEl = document.getElementById('calendar');
-            var calendar = new FullCalendar.Calendar(calendarEl, {
-                initialView: 'dayGridMonth'
+            document.addEventListener('DOMContentLoaded', function () {
+                var calendarEl = document.getElementById('calendar');
+                var calendar = new FullCalendar.Calendar(calendarEl, {
+                    initialView: 'dayGridMonth'
+                });
+                calendar.render();
             });
-            calendar.render();
-        });
 
-    </script>
+        </script>
     </div>
     @section scripts{
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.0/fullcalendar.min.js"></script>
-        
+
         <script>
             $(document).ready(function () {
                 $('#calendar').fullCalendar({
@@ -133,7 +132,8 @@
                     },
                     defaultView: 'month',
                     events: [
-                            title:'Event 1',
+                        {
+                            title: 'Event 1',
                             start: '2023-06-01'
                         },
                         {
@@ -145,6 +145,8 @@
                 })
             })
         </script>
+    }
+    </script>
     }
 
 
@@ -182,6 +184,49 @@
             </section>
         </aside>
     </div>
+
+    <h1>EventsList</h1>
+
+
+    @if(Model != null)
+    {
+          <p>
+        <a asp-action="Create">Create New</a>
+    </p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.EventName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.EventStart)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.EventEnd)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayNameFor(model => model.EventName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EventStart)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EventEnd)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    }
+  
 
     <footer>
         <p>&copy; 2023 Earthcare Initiative. All rights reserved.</p>

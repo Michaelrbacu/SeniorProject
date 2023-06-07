@@ -74,9 +74,15 @@
     <None Include="Areas\Identity\Pages\_ValidationScriptsPartial.cshtml" />
     <None Include="Areas\Identity\Pages\_ViewImports.cshtml" />
     <None Include="Areas\Identity\Pages\_ViewStart.cshtml" />
+    <None Include="Views\Home\AddEvent.cshtml" />
+    <None Include="Views\Home\AddEvents.cshtml" />
+    <None Include="Views\Home\AdminList.cshtml" />
     <None Include="Views\Home\contactus.cshtml" />
+    <None Include="Views\Home\CreateAdmin.cshtml" />
+    <None Include="Views\Home\DeleteDonation.cshtml" />
     <None Include="Views\Home\Donate.cshtml" />
     <None Include="Views\Home\Donated.cshtml" />
+    <None Include="Views\Home\EditDonation.cshtml" />
     <None Include="Views\Home\GetInvolved.cshtml" />
     <None Include="Views\Home\Index.cshtml" />
     <None Include="Views\Home\Privacy.cshtml" />

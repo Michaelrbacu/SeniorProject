@@ -9,14 +9,18 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Donated</h1>
+<h1>Your Past Donations</h1>
 @if (UserManager.GetUserName(User) == "admin@cpt275.beausanders.org")
 {
+    <h1>All donations</h1>
     <p>
         <a asp-controller="Donation" asp-action="Create" class="btn btn-primary">Create New</a>
     </p>
 }
-
+else
+{
+    <h1>Your Past Donations</h1>
+}
 <table class="table table-striped table-bordered">
     <thead>
         <tr>

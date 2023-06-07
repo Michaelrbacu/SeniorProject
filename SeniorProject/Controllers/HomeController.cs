@@ -36,12 +36,7 @@ namespace AuthSystem.Controllers
             ViewBag.Active = "AddEvents";
             return View();
         }
-        [Route("EventsList")]
-        public IActionResult EventsList()
-        {
-            ViewBag.Active = "EventsList";
-            return View();
-        }
+        
         [Route("AdminList")]
         public IActionResult AdminList()
         {
