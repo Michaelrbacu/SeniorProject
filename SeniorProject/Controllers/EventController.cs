@@ -31,7 +31,7 @@ namespace AuthSystem.Controllers
         // POST: Event/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("EventId,EventName,EventStart,EventEnd")] Events events)
+        public async Task<IActionResult> Create([Bind("EventId,EventName,EventStart,EventEnd")] Event events)
         {
             if (ModelState.IsValid)
             {

@@ -10,7 +10,7 @@ namespace AuthSystem.Data
     {
         public DbSet<Donation> Donations { get; set; }
 
-        public DbSet<Events> Events { get; set; }
+        public DbSet<Event> Events { get; set; }
 
         public DbSet<Admin> Admin { get; set; }
 
@@ -39,8 +39,8 @@ namespace AuthSystem.Data
                     Message = "This is a test"
                 });
 
-            builder.Entity<Events>().HasData(
-                new Events
+            builder.Entity<Event>().HasData(
+                new Event
                 {
                     EventId = 1,
                     EventName = "test",

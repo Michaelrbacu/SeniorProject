@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace SeniorProject.Models
 {
-    public class Events
+    public class Event
     {
         [Key]
         public int EventId { get; set; }
