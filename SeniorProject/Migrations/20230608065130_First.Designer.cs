@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace SeniorProject.Migrations
 {
     [DbContext(typeof(AuthDbContext))]
-    [Migration("20230608030934_First")]
+    [Migration("20230608065130_First")]
     partial class First
     {
         /// <inheritdoc />
@@ -306,7 +306,7 @@ namespace SeniorProject.Migrations
                         });
                 });
 
-            modelBuilder.Entity("SeniorProject.Models.Events", b =>
+            modelBuilder.Entity("SeniorProject.Models.Event", b =>
                 {
                     b.Property<int>("EventId")
                         .ValueGeneratedOnAdd()

@@ -303,7 +303,7 @@ namespace SeniorProject.Migrations
                         });
                 });
 
-            modelBuilder.Entity("SeniorProject.Models.Events", b =>
+            modelBuilder.Entity("SeniorProject.Models.Event", b =>
                 {
                     b.Property<int>("EventId")
                         .ValueGeneratedOnAdd()
