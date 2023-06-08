@@ -8,14 +8,27 @@ using Microsoft.Extensions.Options;
 using System.Net.Mail;
 using System.Net;
 using SeniorProject.Models;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Authentication.Cookies;
+
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("AuthDbContextConnection") ?? throw new InvalidOperationException("Connection string 'AuthDbContextConnection' not found.");
 
 builder.Services.AddDbContext<AuthDbContext>(options => options.UseSqlServer(connectionString));
 
-builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
-    .AddEntityFrameworkStores<AuthDbContext>();
+
+
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = false).AddDefaultTokenProviders().
+    AddSignInManager<SignInManager<ApplicationUser>>()
+    .AddEntityFrameworkStores<AuthDbContext>().AddDefaultUI();
+
+
+
+//builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
+//    .AddEntityFrameworkStores<AuthDbContext>();
 
 // Add Google authentication service
 builder.Services.AddAuthentication()
@@ -25,15 +38,25 @@ builder.Services.AddAuthentication()
         options.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
     });
 
+//builder.Services.AddSignInManager<ApplicationUser>(options => options.DefaultScheme = "Cookies");
 builder.Services.Configure<IdentityOptions>(options =>
 {
     options.Password.RequireUppercase = false;
 });
+//builder.Services.AddIdentity<IdentityUser, IdentityRole>(options => { })
+//    .AddEntityFrameworkStores<AuthDbContext>()
+//    .AddDefaultTokenProviders();
+//builder.Services.AddScoped<RoleManager<IdentityRole>>();
+
+//builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+//    .AddEntityFrameworkStores<AuthDbContext>()
+//    .AddDefaultTokenProviders();
+
 
 // Register the EmailSettings and EmailSender services
 builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
 builder.Services.AddTransient<EmailSender>();
-
+builder.Services.AddRazorPages();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -54,6 +77,7 @@ app.MapControllerRoute(
 app.MapRazorPages();
 
 app.Run();
+
 
 // Define the EmailSender class outside the WebApplication builder
 public class EmailSender

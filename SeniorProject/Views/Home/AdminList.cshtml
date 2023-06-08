@@ -4,13 +4,13 @@
 
 @{
     ViewData["Title"] = "Admin List";
-    Layout = "~/Views/Shared/_Layout.cshtml"; // Update the layout file here
+    Layout = "~/Views/Shared/_Layout.cshtml"; 
 }
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <h1>Admin List</h1>
 
 <p>
-    <a asp-action="CreateAdmin">Create New Admin</a>
+    <a asp-action="Create">Create New Admin</a>
 </p>
 
 @if (Model != null)
@@ -42,6 +42,8 @@
         </tbody>
     </table>
 }
+
+
 
 @section Scripts {
     <script>

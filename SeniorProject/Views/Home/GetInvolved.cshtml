@@ -166,7 +166,7 @@
                     <li><a href="#">Donate</a></li>
                 </ul>
                 <p>Whatever your skills, interests, or availability, we welcome your support and participation. Together, we can make a difference!</p>
-                
+
             </section>
         </main>
 
@@ -188,45 +188,45 @@
     <h1>EventsList</h1>
 
 
-    @if(Model != null)
+    @if (Model != null)
     {
-          <p>
-        <a asp-action="Create">Create New</a>
-    </p>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.EventName)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.EventStart)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.EventEnd)
-                </th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
+        <p>
+            <a asp-action="Create">Create New</a>
+        </p>
+        <table class="table">
+            <thead>
                 <tr>
-                    <td>
+                    <th>
                         @Html.DisplayNameFor(model => model.EventName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.EventStart)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.EventEnd)
-                    </td>
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.EventStart)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.EventEnd)
+                    </th>
+                    <th></th>
                 </tr>
-            }
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayNameFor(model => model.EventName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.EventStart)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.EventEnd)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
     }
-  
+
 
     <footer>
         <p>&copy; 2023 Earthcare Initiative. All rights reserved.</p>
