@@ -22,7 +22,13 @@ namespace AuthSystem.Controllers
         }
 
 
-       
+        
+        [Route("Portal")]
+        public IActionResult Portal()
+        {
+            ViewBag.Active = "Portal";
+            return View();
+        }
 
         [Route("ContactUs")]
         public IActionResult ContactUs()
