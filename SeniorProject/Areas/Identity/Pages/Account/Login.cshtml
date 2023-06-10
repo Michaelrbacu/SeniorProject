@@ -1,7 +1,5 @@
 ﻿@page
 @model LoginModel
-@*@using Microsoft.AspNetCore.Authentication*@
-
 @{
     ViewData["Title"] = "Log in";
     Layout = "~/Areas/Identity/Pages/_AuthLayout.cshtml";
@@ -10,7 +8,7 @@
 <div class="row justify-content-center">
     <div class="col-10">
         <section>
-            <form id="account"  method="post">
+            <form id="account" method="post">
                 <h2>Welcome back!</h2>
                 <hr />
                 <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
@@ -32,6 +30,11 @@
                 </div>
                 <div>
                     <button id="login-submit" type="submit" class="w-100 btn btn-lg btn-primary">Log in</button>
+                </div>
+                <div class="text-center mt-3">
+                    <p>
+                        <a asp-page="./ForgotPassword">Forgot your password?</a>
+                    </p>
                 </div>
                 <hr />
                 <div class="text-center">

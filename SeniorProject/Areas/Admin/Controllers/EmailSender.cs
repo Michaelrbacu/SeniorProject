@@ -16,6 +16,8 @@ namespace SeniorProject.Areas.Admin.Controllers
             _emailSettings = emailSettings.Value;
         }
 
+
+
         public async Task SendEmailAsync(string email, string subject, string messages)
         {
             try

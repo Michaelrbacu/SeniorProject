@@ -27,7 +27,7 @@ namespace SeniorProject.Areas.Admin.Controllers
             _context = context;
         }
 
-       // [Route("[controller]/[action]")]
+        // [Route("[controller]/[action]")]
         [HttpGet]
         public IActionResult Register()
         {
@@ -93,38 +93,55 @@ namespace SeniorProject.Areas.Admin.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-
-
-
-        public IActionResult Index()
+        [Route("[area]/[controller]/[action]")]
+        [HttpGet]
+        public IActionResult ForgotPassword()
         {
             return View();
         }
 
-        public IActionResult CreateAdmin()
-        {
-            return View("~/Views/Admin/CreateAdmin.cshtml"); // 
-        }
-
         [HttpPost]
-        public async Task<IActionResult> CreateAdmin(AdminViewModel model)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ForgotPassword(ForgotPasswordViewModel model)
         {
-            var user = await UserManager.FindByEmailAsync(model.Email);
-            var result = await UserManager.AddToRoleAsync(user, "Admin");
-            if (result.Succeeded)
+            if (ModelState.IsValid)
             {
-                var admin = new AuthSystem.Data.Admin
+                var user = await UserManager.FindByEmailAsync(model.Email);
+                if (user == null || !(await UserManager.IsEmailConfirmedAsync(user)))
                 {
-                    Email = model.Email
-                };
+                    // Don't reveal that the user does not exist or is not confirmed
+                    return RedirectToAction(nameof(ForgotPasswordConfirmation));
+                }
 
-                _context.Admin.Add(admin);
-                await _context.SaveChangesAsync();
+                // For more information on how to enable account confirmation and password reset, 
+                // please visit https://go.microsoft.com/fwlink/?LinkID=532713
+                var code = await UserManager.GeneratePasswordResetTokenAsync(user);
+                var callbackUrl = Url.Page(
+                    "/Account/ResetPassword",
+                    pageHandler: null,
+                    values: new { area = "Identity", code },
+                    protocol: Request.Scheme);
 
-                TempData["message"] = "Admin created successfully!";
+                await _emailSender.SendEmailAsync(
+                    model.Email,
+                    "Reset Password",
+                    $"Please reset your password by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+
+                return RedirectToAction(nameof(ForgotPasswordConfirmation));
             }
-            return RedirectToAction("AdminList");
+
+            // If we got this far, something failed, redisplay form
+            return View(model);
         }
+
+        [Route("[area]/[controller]/[action]")]
+        [HttpGet]
+        public IActionResult ForgotPasswordConfirmation()
+        {
+            return View();
+        }
+
+        // ... other existing methods ...
 
     }
 }
