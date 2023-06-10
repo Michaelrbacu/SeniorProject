@@ -7,6 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Areas\Admin\Views\Account\ForgotPassword.cshtml" />
+    <Content Remove="Areas\Admin\Views\Account\ForgotPasswordConfirmation.cshtml" />
     <Content Remove="C:\Users\micha\.nuget\packages\bootstrap\5.2.3\contentFiles\any\any\wwwroot\css\bootstrap-grid.css" />
     <Content Remove="C:\Users\micha\.nuget\packages\bootstrap\5.2.3\contentFiles\any\any\wwwroot\css\bootstrap-grid.css.map" />
     <Content Remove="C:\Users\micha\.nuget\packages\bootstrap\5.2.3\contentFiles\any\any\wwwroot\css\bootstrap-grid.min.css" />
@@ -54,6 +56,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="Areas\Admin\Views\Account\ForgotPasswordConfirmation.cshtml" />
+    <None Include="Areas\Admin\Views\Account\ForgotPassword.cshtml" />
     <None Include="Areas\Admin\Views\Account\AccessDenied.cshtml" />
     <None Include="Areas\Admin\Views\Account\ConfirmEmailFailure.cshtml" />
     <None Include="Areas\Admin\Views\Account\ConfirmEmailSuccess.cshtml" />
