@@ -3,9 +3,9 @@
 @using SeniorProject.Areas.Admin.Models
 @model IEnumerable<SeniorProject.Areas.Admin.Models.AdminViewModel>
 
-
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
+
 
 @{
     ViewData["Title"] = "Portal";
@@ -17,42 +17,19 @@
 
 @if (Model != null)
 {
-    <table class="table">
-        <thead>
-            <tr>
-                <th>@Html.DisplayNameFor(model => model.Name)</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
             @foreach (var item in Model)
             {
                 if (item != null)
                 {
-                    <tr>
-                        <td>@Html.DisplayFor(modelItem => item.Name)</td>
-                        <td>
-                            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                            <form asp-action="RevokeAdminAccess" method="post"
-                                  onclick="return confirm('Are you sure?')">
-                                <button type="submit">Revoke Admin Access</button>
-                            </form>
-                        </td>
-                    </tr>
+                    @if (SignInManager.IsSignedIn(User))
+                    {
+
+                    if(UserManager.GetUserName(User) == item.Name )
+                    {
+                        <h1>Success</h1>
+                    } 
+        
+                    }
                 }
             }
-        </tbody>
-    </table>
-}
-
-
-
-@section Scripts {
-    <script>
-        $("form").validate({
-            rules: {
-                Email: "required"
-            }
-        });
-    </script>
 }
