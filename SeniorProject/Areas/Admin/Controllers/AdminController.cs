@@ -4,29 +4,25 @@ using Microsoft.AspNetCore.Mvc;
 using SeniorProject.Areas.Admin.Models;
 using AuthSystem.Data;
 using System.Threading.Tasks;
-using System.Collections.Generic; // Add this using directive
+using System.Collections.Generic;
 using AuthSystem.Areas.Identity.Data;
 
 namespace SeniorProject.Areas.Admin.Controllers
 {
-   // [Authorize(Roles = "Admin")]
+    // [Authorize(Roles = "Admin")]
     public class AdminController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly AuthDbContext _context;
-        private readonly RoleManager<IdentityRole> roleManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
-        public AdminController( AuthDbContext context, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager
-            )
+        public AdminController(AuthDbContext context, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
             _context = context;
-            this.roleManager = roleManager;
+            _roleManager = roleManager;
         }
-        public IActionResult AdminLis()
-        {
-            return View("~/Views/Home/AdminList.cshtml"); // Render the Donate.cshtml view in the Home folder
-        }
+
         public async Task<IActionResult> AdminList()
         {
             var identityAdmins = await _userManager.GetUsersInRoleAsync("Admin");
@@ -43,42 +39,17 @@ namespace SeniorProject.Areas.Admin.Controllers
                 adminViewModels.Add(adminViewModel);
             }
 
-            return View("~/Views/Home/AdminList.cshtml",adminViewModels);
+            return View("~/Views/Home/AdminList.cshtml", adminViewModels);
         }
 
-        //  public IActionResult Create() => View();
         public IActionResult Create()
         {
-            return View("~/Views/Home/CreateAdmin.cshtml"); // Render the Donate.cshtml view in the Home folder
+            return View("~/Views/Home/CreateAdmin.cshtml"); // Render the CreateAdmin.cshtml view in the Home folder
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Createe(AdminViewModel model)
-        {
-            var user = await _userManager.FindByEmailAsync(model.Email);
-            if (user != null)
-            {
-                var result = await _userManager.AddToRoleAsync(user, "Admin");
-                if (result.Succeeded)
-                {
-                    var admin = new AuthSystem.Data.Admin
-                    {
-                        Email = model.Email
-                    };
-
-                    _context.Admin.Add(admin);
-                    await _context.SaveChangesAsync();
-
-                    TempData["message"] = "Admin created successfully!";
-                }
-            }
-            
-            return RedirectToAction("AdminList");
-        }
         [HttpPost]
         public async Task<IActionResult> Create(AdminViewModel model, string newRole = "Admin")
         {
-            await roleManager.CreateAsync(new IdentityRole("Admin"));
             var user = await _userManager.FindByEmailAsync(model.Email);
             if (user == null)
             {
@@ -104,11 +75,17 @@ namespace SeniorProject.Areas.Admin.Controllers
                 return BadRequest();
             }
 
+            // Add the admin to the database
+            var admin = new AuthSystem.Data.Admin
+            {
+                Email = model.Email
+            };
+            _context.Admin.Add(admin);
+            await _context.SaveChangesAsync();
+
+            TempData["message"] = "Admin created successfully!";
             return RedirectToAction("AdminList");
         }
-        
-
-
 
         // Other actions...
     }

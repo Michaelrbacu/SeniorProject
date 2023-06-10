@@ -1,35 +1,46 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @using AuthSystem.Areas.Identity.Data
 @using SeniorProject.Areas.Admin.Models
-@model IEnumerable<SeniorProject.Areas.Admin.Models.AdminViewModel>
+@model List<SeniorProject.Areas.Admin.Models.AdminViewModel>
 
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
-
 
 @{
     ViewData["Title"] = "Portal";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-<h1>IN PROGRESS</h1>
+<h1>Admin Portal</h1>
 
-
-@if (Model != null)
+@if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
 {
-            @foreach (var item in Model)
-            {
-                if (item != null)
-                {
-                    @if (SignInManager.IsSignedIn(User))
-                    {
+    <p>You are signed in as an admin user.</p>
 
-                    if(UserManager.GetUserName(User) == item.Name )
-                    {
-                        <h1>Success</h1>
-                    } 
-        
-                    }
+    @if (Model != null)
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Email</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var admin in Model)
+                {
+                    <tr>
+                        <td>@admin.Email</td>
+                    </tr>
                 }
-            }
+            </tbody>
+        </table>
+    }
+}
+else if (SignInManager.IsSignedIn(User))
+{
+    <p>You are signed in, but you don't have admin privileges.</p>
+}
+else
+{
+    <p>You need to sign in with an admin account to access this page.</p>
 }
