@@ -53,6 +53,7 @@
     <Content Remove="C:\Users\micha\.nuget\packages\bootstrap\5.2.3\contentFiles\any\any\wwwroot\js\bootstrap.js.map" />
     <Content Remove="C:\Users\micha\.nuget\packages\bootstrap\5.2.3\contentFiles\any\any\wwwroot\js\bootstrap.min.js" />
     <Content Remove="C:\Users\micha\.nuget\packages\bootstrap\5.2.3\contentFiles\any\any\wwwroot\js\bootstrap.min.js.map" />
+    <Content Remove="Views\Home\Delete.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -78,6 +79,7 @@
     <None Include="Areas\Identity\Pages\_ValidationScriptsPartial.cshtml" />
     <None Include="Areas\Identity\Pages\_ViewImports.cshtml" />
     <None Include="Areas\Identity\Pages\_ViewStart.cshtml" />
+    <None Include="Views\Home\List.cshtml" />
     <None Include="Views\Home\AddEvent.cshtml" />
     <None Include="Views\Home\AddEvents.cshtml" />
     <None Include="Views\Home\AdminList.cshtml" />
