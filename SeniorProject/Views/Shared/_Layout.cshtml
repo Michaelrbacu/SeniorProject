@@ -130,8 +130,7 @@
                                 </form>
                             </li>
                         }
-
-                        @if (UserManager.GetUserName(User) == "admin@cpt275.beausanders.org")
+                        @if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
                         {
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="adminDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -150,10 +149,14 @@
                                     <li>
                                         <a class="dropdown-item" asp-area="" asp-controller="Admin" asp-action="Create">Create Admin</a>
                                     </li>
-
+                                    <li>
+                                        <a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="UserList">UserList</a>
+                                    </li>
                                 </ul>
                             </li>
                         }
+                        
+                        
                     </ul>
                     @await Html.PartialAsync("_LoginPartial")
                 </div>

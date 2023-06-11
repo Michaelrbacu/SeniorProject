@@ -4,6 +4,7 @@ using AuthSystem.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using SeniorProject.Models;
 using System.Diagnostics;
 
@@ -14,15 +15,44 @@ namespace AuthSystem.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly AuthDbContext _context;
 
-        public HomeController(ILogger<HomeController> logger,UserManager<ApplicationUser> userManager)
+        public HomeController(ILogger<HomeController> logger, UserManager<ApplicationUser> userManager, AuthDbContext context)
         {
             _logger = logger;
-            this._userManager = userManager;
+            _userManager = userManager;
+            _context = context;
         }
 
 
-        
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var donation = await _context.Donations.FindAsync(id);
+            if (donation == null)
+            {
+                return NotFound();
+            }
+
+            _context.Donations.Remove(donation);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Deleted");
+        }
+
+
+        [Route("UserList")]
+        public IActionResult UserList()
+        {
+            ViewBag.Active = "UserList";
+            return View();
+        }
         [Route("Portal")]
         public IActionResult Portal()
         {

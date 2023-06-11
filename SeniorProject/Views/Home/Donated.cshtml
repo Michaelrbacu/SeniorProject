@@ -9,8 +9,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Your Past Donations</h1>
-@if (UserManager.GetUserName(User) == "admin@cpt275.beausanders.org")
+@if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
 {
     <h1>All donations</h1>
     <p>
@@ -49,7 +48,7 @@ else
         </tr>
     </thead>
     <tbody>
-        @if (UserManager.GetUserName(User) == "admin@cpt275.beausanders.org")
+        @if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
         {
             @foreach (var donation in Model)
             {
@@ -77,8 +76,12 @@ else
                     </td>
                     <td>
                         <a asp-action="Edit" asp-route-id="@donation.Id">Edit</a> |
-                        <a asp-action="Details" asp-route-id="@donation.Id">Details</a> |
-                        <a asp-action="Delete" asp-route-id="@donation.Id">Delete</a>
+                        <form asp-action="Deleted" method="post">
+                            <input type="hidden" name="id" value="@donation.Id" />
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+
+
                     </td>
                 </tr>
             }

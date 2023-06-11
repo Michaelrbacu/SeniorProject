@@ -1,0 +1,39 @@
+﻿@model IEnumerable<SeniorProject.Areas.Admin.Models.AdminViewModel>
+@using Microsoft.AspNetCore.Identity
+@using AuthSystem.Areas.Identity.Data
+@using SeniorProject.Areas.Admin.Models
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+@{
+    ViewData["Title"] = "Admin List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<h1>Admin List</h1>
+
+<p>
+    <a asp-action="Create">Create New Admin</a>
+</p>
+@if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+{
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>User</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            //foreach (string name in IdentityUser)
+                {
+                    
+                        <tr>
+                        <td></td>
+                        </tr>
+                    
+                }
+            </tbody>
+        </table>
+    
+}

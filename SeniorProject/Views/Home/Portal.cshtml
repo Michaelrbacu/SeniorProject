@@ -10,31 +10,61 @@
     ViewData["Title"] = "Portal";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
 <h1>Admin Portal</h1>
 
 @if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
 {
     <p>You are signed in as an admin user.</p>
 
-    @if (Model != null)
-    {
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Email</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var admin in Model)
-                {
-                    <tr>
-                        <td>@admin.Email</td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    }
+    
+
+    <div class="row mt-4">
+        <div class="col-md-4">
+            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="AddEvents">Add Events</a>
+        </div>
+        <div class="col-md-4">
+            <a class="nav-link" asp-area="" asp-controller="Donation" asp-action="Donated">Edit Donation</a>
+        </div>
+        <div class="col-md-4">
+            <a class="nav-link" asp-area="" asp-controller="Admin" asp-action="AdminList">Admins</a>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <a class="nav-link" asp-area="" asp-controller="Admin" asp-action="Create">Create Admin</a>
+        </div>
+        <div class="col-md-4">
+            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="UserList">User List</a>
+        </div>
+        <div class="col-md-4">
+            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Portal">Portal</a>
+        </div>
+        <div class="col-md-4">
+            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="ContactUs">Contact Us</a>
+        </div>
+        <div class="col-md-4">
+            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="GetInvolved">Get Involved</a>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <a class="nav-link" asp-area="" asp-controller="Donation" asp-action="Create">Donate</a>
+        </div>
+        <div class="col-md-4">
+            <a class="nav-link" asp-area="" asp-controller="Donation" asp-action="Donated">Donated</a>
+        </div>
+    </div>
 }
 else if (SignInManager.IsSignedIn(User))
 {

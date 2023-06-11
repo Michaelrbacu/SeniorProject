@@ -1,6 +1,10 @@
-﻿@using SeniorProject.Areas.Admin.Models
-@model IEnumerable<SeniorProject.Areas.Admin.Models.AdminViewModel>
+﻿@model IEnumerable<SeniorProject.Areas.Admin.Models.AdminViewModel>
+@using Microsoft.AspNetCore.Identity
+@using AuthSystem.Areas.Identity.Data
+@using SeniorProject.Areas.Admin.Models
 
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
 @{
     ViewData["Title"] = "Admin List";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -11,7 +15,8 @@
 <p>
     <a asp-action="Create">Create New Admin</a>
 </p>
-
+@if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+{
 @if (Model != null)
 {
     <table class="table">
@@ -41,7 +46,7 @@
         </tbody>
     </table>
 }
-
+}
 @section Scripts {
     <script>
         $("form").validate({
