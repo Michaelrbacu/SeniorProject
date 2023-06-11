@@ -90,7 +90,7 @@ namespace AuthSystem.Controllers
                 }
                 return RedirectToAction(nameof(List));
             }
-            return View(events);
+            return View("~/Views/Event/Edit.cshtml", events);
         }
 
         // POST: Event/Delete/{id}

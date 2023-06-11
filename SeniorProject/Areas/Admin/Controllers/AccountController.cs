@@ -1,12 +1,11 @@
-﻿using SeniorProject.Models;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using SeniorProject.Models;
+using SeniorProject.Models.AccountViewModels;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
-using SeniorProject.Services; // Added this line
+using SeniorProject.Services;
 using SeniorProject.Areas.Admin.Models;
 using AuthSystem.Data;
 
@@ -17,90 +16,28 @@ namespace SeniorProject.Areas.Admin.Controllers
     {
         private UserManager<IdentityUser> UserManager { get; set; }
         private SignInManager<IdentityUser> SignInManager { get; set; }
-        private readonly EmailSender _emailSender; // Added this line
+        private readonly IEmailSender _emailSender;
         private readonly AuthDbContext _context;
-        public AccountController(UserManager<IdentityUser> UserManager, SignInManager<IdentityUser> SignInManager, EmailSender emailSender, AuthDbContext context) // Modified this line
+
+        public AccountController(UserManager<IdentityUser> UserManager, SignInManager<IdentityUser> SignInManager, IEmailSender emailSender, AuthDbContext context)
         {
             this.UserManager = UserManager;
             this.SignInManager = SignInManager;
-            _emailSender = emailSender; // Added this line
+            _emailSender = emailSender;
             _context = context;
         }
 
-        // [Route("[controller]/[action]")]
+        // ... other existing methods ...
+
         [HttpGet]
-        public IActionResult Register()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> Register(RegisterModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                IdentityUser identityUser = new IdentityUser();
-                identityUser.UserName = model.Email;
-                IdentityResult identityResult = await UserManager.CreateAsync(identityUser, model.Password);
-                if (identityResult.Succeeded)
-                {
-                    // Send a welcome email to the user - Added this block
-                    string subject = "Welcome to Earth Care Initiative";
-                    string message = "Thank you for joining Earth Care Initiative! We are excited to have you on board.";
-                    await _emailSender.SendEmailAsync(model.Email, subject, message);
-
-                    await SignInManager.SignInAsync(identityUser, isPersistent: false);
-                }
-                return RedirectToAction("Index", "Home");
-            }
-            else
-            {
-                return View(model);
-            }
-        }
-
-        [Route("[area]/[controller]/[action]")]
-        [HttpGet]
-        public IActionResult Login()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> Login(LoginViewModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                Microsoft.AspNetCore.Identity.SignInResult identityResult = await SignInManager.PasswordSignInAsync(model.UserName, model.Password, isPersistent: false, lockoutOnFailure: false);
-                if (identityResult.Succeeded)
-                {
-                    return RedirectToAction("Index", "Home");
-                }
-            }
-            ModelState.AddModelError("", "Invalid Username/Password");
-            return View();
-        }
-
-        public IActionResult AccessDenied()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> LogOut()
-        {
-            await SignInManager.SignOutAsync();
-            return RedirectToAction("Index", "Home");
-        }
-
-        [Route("[area]/[controller]/[action]")]
-        [HttpGet]
+        [AllowAnonymous]
         public IActionResult ForgotPassword()
         {
             return View();
         }
 
         [HttpPost]
+        [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ForgotPassword(ForgotPasswordViewModel model)
         {
@@ -113,18 +50,14 @@ namespace SeniorProject.Areas.Admin.Controllers
                     return RedirectToAction(nameof(ForgotPasswordConfirmation));
                 }
 
-                // For more information on how to enable account confirmation and password reset, 
-                // please visit https://go.microsoft.com/fwlink/?LinkID=532713
                 var code = await UserManager.GeneratePasswordResetTokenAsync(user);
-                var callbackUrl = Url.Page(
-                    "/Account/ResetPassword",
-                    pageHandler: null,
-                    values: new { area = "Identity", code },
-                    protocol: Request.Scheme);
+                var callbackUrl = Url.Action(
+                    "ResetPassword",
+                    "Account",
+                    new { area = "Admin", code },
+                    protocol: HttpContext.Request.Scheme);
 
-                await _emailSender.SendEmailAsync(
-                    model.Email,
-                    "Reset Password",
+                await _emailSender.SendEmailAsync(model.Email, "Reset Password",
                     $"Please reset your password by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
                 return RedirectToAction(nameof(ForgotPasswordConfirmation));
@@ -134,14 +67,48 @@ namespace SeniorProject.Areas.Admin.Controllers
             return View(model);
         }
 
-        [Route("[area]/[controller]/[action]")]
         [HttpGet]
+        [AllowAnonymous]
         public IActionResult ForgotPasswordConfirmation()
         {
             return View();
         }
 
-        // ... other existing methods ...
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
 
+            var user = await UserManager.FindByEmailAsync(model.Email);
+            if (user == null)
+            {
+                // Don't reveal that the user does not exist
+                return RedirectToAction(nameof(ResetPasswordConfirmation));
+            }
+
+            var result = await UserManager.ResetPasswordAsync(user, model.Code, model.Password);
+            if (result.Succeeded)
+            {
+                return RedirectToAction(nameof(ResetPasswordConfirmation));
+            }
+
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError(string.Empty, error.Description);
+            }
+
+            return View(model);
+        }
+
+
+        [HttpGet]
+        public IActionResult ResetPasswordConfirmation()
+        {
+            return View();
+        }
     }
 }

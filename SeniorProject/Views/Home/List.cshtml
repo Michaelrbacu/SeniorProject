@@ -23,8 +23,12 @@
                 <td>@eventItem.Registered</td>
 
                 <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = eventItem.EventId }) |
-                    <a href="#" class="delete-event" data-event-id="@eventItem.EventId">Delete</a>
+                    @Html.ActionLink("Edit", "Edit", "Event", new { id = eventItem.EventId }, null)
+                    <form class="delete-event-form" method="post" onsubmit="return confirm('Are you sure?')">
+                        <input type="hidden" name="eventId" value="@eventItem.EventId" />
+                        @Html.AntiForgeryToken()
+                        <button type="submit" class="delete-event">Delete</button>
+                    </form>
                 </td>
             </tr>
         }
@@ -34,13 +38,13 @@
 @section Scripts {
     <script>
         $(document).ready(function () {
-            $('.delete-event').on('click', function (e) {
+            $('.delete-event-form').on('submit', function (e) {
                 e.preventDefault();
 
-                var eventId = $(this).data('event-id');
+                var eventId = $(this).find('input[name=eventId]').val();
                 var deleteUrl = '@Url.Action("Delete", "Event")' + '?id=' + eventId;
                 var rowToDelete = $(this).closest('tr');
-                var antiForgeryToken = $('input[name=__RequestVerificationToken]').val();
+                var antiForgeryToken = $(this).find('input[name=__RequestVerificationToken]').val();
 
                 $.ajax({
                     type: 'POST',

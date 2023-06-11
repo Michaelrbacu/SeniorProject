@@ -1,13 +1,14 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using System.Net.Mail;
 using System.Threading.Tasks;
-using Mandrill.API.Endpoints;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.Extensions.Options;
 using SeniorProject.Services;
 
 namespace SeniorProject.Areas.Admin.Controllers
 {
-    public class EmailSender
+    public class EmailSender : IEmailSender
     {
         private readonly EmailSettings _emailSettings;
 
@@ -16,22 +17,19 @@ namespace SeniorProject.Areas.Admin.Controllers
             _emailSettings = emailSettings.Value;
         }
 
-
-
         public async Task SendEmailAsync(string email, string subject, string messages)
         {
             try
             {
-
                 MailAddress from = new MailAddress(_emailSettings.FromEmail, _emailSettings.FromName);
                 MailAddress to = new MailAddress(email);
                 MailMessage message = new MailMessage(from, to);
                 message.Body = messages;
                 message.Subject = subject;
-                message.IsBodyHtml = false;
+                message.IsBodyHtml = true;
                 string server = _emailSettings.Server;
                 SmtpClient client = new SmtpClient(server);
-                client.UseDefaultCredentials = Convert.ToBoolean("false");
+                client.UseDefaultCredentials = false;
                 client.DeliveryMethod = SmtpDeliveryMethod.Network;
                 client.Port = Convert.ToInt16(_emailSettings.Port);
                 client.EnableSsl = Convert.ToBoolean(_emailSettings.UseSSL);
@@ -41,10 +39,9 @@ namespace SeniorProject.Areas.Admin.Controllers
             }
             catch (Exception ex)
             {
-
+                // You can log the exception here or handle it according to your project requirements
                 throw;
             }
-            
         }
     }
 }

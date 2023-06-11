@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SeniorProject.Areas.Admin.Controllers;
 using SeniorProject.Models;
+using SeniorProject.Services;
 
 namespace SeniorProject.Controllers
 {
@@ -58,6 +59,23 @@ namespace SeniorProject.Controllers
             var donations = await _context.Donations.ToListAsync();
 
             return View("~/Views/Home/Donated.cshtml", donations); // Render the Donated.cshtml view in the Home folder with the list of donations
+        }
+
+        // POST: Donation/Delete
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var donation = await _context.Donations.FindAsync(id);
+            if (donation == null)
+            {
+                return NotFound();
+            }
+
+            _context.Donations.Remove(donation);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Donated));
         }
 
         // Additional action methods for Edit, Details, and Delete if needed

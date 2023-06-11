@@ -75,13 +75,10 @@ else
                         @Html.DisplayFor(modelItem => donation.Message)
                     </td>
                     <td>
-                        <a asp-action="Edit" asp-route-id="@donation.Id">Edit</a> |
-                        <form asp-action="Deleted" method="post">
+                        <form asp-action="Delete" method="post" class="text-center">
                             <input type="hidden" name="id" value="@donation.Id" />
                             <button type="submit" class="btn btn-danger">Delete</button>
                         </form>
-
-
                     </td>
                 </tr>
             }
@@ -173,6 +170,23 @@ else
 
         .btn-primary:focus {
             outline: none;
-            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.5);
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+        }
+
+    .btn-danger {
+        background-color: #dc3545;
+    }
+
+        .btn-danger:hover {
+            background-color: #c82333;
+        }
+
+        .btn-danger:active {
+            background-color: #bd2130;
+        }
+
+        .btn-danger:focus {
+            outline: none;
+            box-shadow: 0 0 0 0.2rem rgba(225, 83, 97, 0.25);
         }
 </style>

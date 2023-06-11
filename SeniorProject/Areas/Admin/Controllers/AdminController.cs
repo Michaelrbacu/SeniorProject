@@ -6,6 +6,7 @@ using AuthSystem.Data;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using AuthSystem.Areas.Identity.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace SeniorProject.Areas.Admin.Controllers
 {
@@ -86,7 +87,39 @@ namespace SeniorProject.Areas.Admin.Controllers
             TempData["message"] = "Admin created successfully!";
             return RedirectToAction("AdminList");
         }
+        [HttpPost]
+        public async Task<IActionResult> RevokeAdminAccess(string userId)
+        {
+            if (string.IsNullOrEmpty(userId))
+            {
+                return BadRequest();
+            }
 
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            // Remove the 'Admin' role from the user
+            var removeResult = await _userManager.RemoveFromRoleAsync(user, "Admin");
+            if (!removeResult.Succeeded)
+            {
+                // Removing role failed, handle the error
+                return BadRequest();
+            }
+
+            // Remove the admin record from the database
+            var admin = await _context.Admin.FirstOrDefaultAsync(a => a.Email == user.Email);
+            if (admin != null)
+            {
+                _context.Admin.Remove(admin);
+                await _context.SaveChangesAsync();
+            }
+
+            TempData["message"] = "Admin access revoked successfully!";
+            return RedirectToAction("AdminList");
+        }
         // Other actions...
     }
 }

@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using SeniorProject.Areas.Admin.Controllers;
 
 namespace AuthSystem.Areas.Identity.Pages.Account
 {
@@ -66,7 +67,7 @@ namespace AuthSystem.Areas.Identity.Pages.Account
         public class InputModel
         {
             [DataType(DataType.Text)]
-            [Display(Name ="First Name")]
+            [Display(Name = "First Name")]
             public string FirstName { get; set; }
 
 
@@ -123,7 +124,7 @@ namespace AuthSystem.Areas.Identity.Pages.Account
                 await roleManager.CreateAsync(new IdentityRole("Client"));
                 var user = CreateUser();
 
-                user.FirstName = Input.FirstName; 
+                user.FirstName = Input.FirstName;
                 user.LastName = Input.LastName;
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
