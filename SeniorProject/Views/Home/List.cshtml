@@ -19,6 +19,9 @@
                 <td>@eventItem.EventName</td>
                 <td>@eventItem.EventStart</td>
                 <td>@eventItem.EventEnd</td>
+                <td>@eventItem.EventDescription</td>
+                <td>@eventItem.Registered</td>
+
                 <td>
                     @Html.ActionLink("Edit", "Edit", new { id = eventItem.EventId }) |
                     <a href="#" class="delete-event" data-event-id="@eventItem.EventId">Delete</a>

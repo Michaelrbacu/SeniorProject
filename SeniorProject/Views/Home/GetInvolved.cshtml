@@ -1,4 +1,10 @@
 ﻿@model IEnumerable<SeniorProject.Models.Event>
+@using Microsoft.AspNetCore.Identity
+@using AuthSystem.Areas.Identity.Data
+@using SeniorProject.Areas.Admin.Models
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
 
 @{
     ViewData["Title"] = "GetInvolved";
@@ -12,6 +18,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.0/fullcalendar.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.0/fullcalendar.print.min.css" media="print" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -98,8 +108,7 @@
             padding: 20px;
             text-align: center;
         }
-        
-            </style>
+    </style>
     <title>Get Involved</title>
 </head>
 
@@ -127,11 +136,12 @@
                                 var events = [];
                                 for (var i = 0; i < data.length; i++) {
                                     events.push({
-                                        id: data[i].eventId,
+                                        id: data[i].eventID,
                                         title: data[i].eventName,
                                         start: data[i].eventStart,
                                         end: data[i].eventEnd,
-                                        description: data[i].eventDescription
+                                        description: data[i].eventDescription,
+                                        registered: data[i].registered
                                     });
                                 }
                                 callback(events);
@@ -139,35 +149,69 @@
                         });
                     },
                     eventClick: function (event) {
-                        // Handle event click here
-                        // Display a popup box with event-specific information
-                        $('#eventModalTitle').text(event.title);
-                        $('#eventModalDescription').text(event.description);
+                        // Display event details in a modal
                         $('#eventModal').modal('show');
+                        $('#eventTitle').text(event.title);
+                        $('#eventStart').text(moment(event.start).format('YYYY-MM-DD HH:mm'));
+                        $('#eventEnd').text(moment(event.end).format('YYYY-MM-DD HH:mm'));
+                        $('#eventDescription').text(event.description);
+                        $('#eventRegistered').text(event.registered);
+
+                        // Set up button click event to update the registered string
+                        $('#updateRegisteredBtn').off('click').on('click', function () {
+                            var username = '@UserManager.GetUserName(User)';
+                            var eventId = event.id;
+
+                            // Make AJAX request to update the registered users
+                            $.ajax({
+                                type: 'POST',
+                                url: '/Event/UpdateRegistered',
+                                data: { eventId: eventId, username: username },
+                                success: function (response) {
+                                    if (response.success) {
+                                        event.registered += ', ' + username;
+                                        $('#eventRegistered').text(event.registered);
+                                        $('#eventModal').modal('hide');
+                                    } else {
+                                        alert('Failed to update registered users.');
+                                    }
+                                },
+                                error: function () {
+                                    alert('An error occurred while updating registered users.');
+                                }
+                            });
+                        });
                     }
                 });
             });
         </script>
-    }
 
-    <!-- Modal HTML -->
-    <div id="eventModal" class="modal fade">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 id="eventModalTitle" class="modal-title"></h5>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                </div>
-                <div class="modal-body">
-                    <p id="eventModalDescription"></p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <!-- Modal for displaying event details -->
+        <div class="modal fade" id="eventModal" tabindex="-1" role="dialog" aria-labelledby="eventModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="eventModalLabel">Event Details</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p><strong>Title:</strong> <span id="eventTitle"></span></p>
+                        <p><strong>Start Time:</strong> <span id="eventStart"></span></p>
+                        <p><strong>End Time:</strong> <span id="eventEnd"></span></p>
+                        <p><strong>Description:</strong> <span id="eventDescription"></span></p>
+                        <p><strong>Registered:</strong> <span id="eventRegistered"></span></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" id="updateRegisteredBtn">Update Registered</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-
+    }
 
 
 

@@ -10,5 +10,8 @@ namespace SeniorProject.Models
         public string EventName { get; set; }
         public DateTime EventStart { get; set; }
         public DateTime EventEnd { get; set; }
+        public string? EventDescription { get; set; }
+        public string? Registered { get; set; }
+
     }
 }

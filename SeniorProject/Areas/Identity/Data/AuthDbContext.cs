@@ -45,7 +45,9 @@ namespace AuthSystem.Data
                     EventId = 1,
                     EventName = "test",
                     EventStart = new DateTime(2023, 6, 2),
-                    EventEnd = new DateTime(2023, 6, 2)
+                    EventEnd = new DateTime(2023, 6, 2),
+                    EventDescription = "this is a test",
+                    Registered = "michaelrbacu2@gmail.com"
                 });
             builder.Entity<Admin>().HasData(
     new Admin

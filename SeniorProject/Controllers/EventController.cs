@@ -32,7 +32,7 @@ namespace AuthSystem.Controllers
         // POST: Event/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("EventId,EventName,EventStart,EventEnd")] Event events)
+        public async Task<IActionResult> Create([Bind("EventId,EventName,EventStart,EventEnd,EventDescription,Registered")] Event events)
         {
             if (ModelState.IsValid)
             {
@@ -63,7 +63,7 @@ namespace AuthSystem.Controllers
         // POST: Event/Edit/{id}
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("EventId,EventName,EventStart,EventEnd")] Event events)
+        public async Task<IActionResult> Edit(int id, [Bind("EventId,EventName,EventStart,EventEnd,EventDescription,Registered")] Event events)
         {
             if (id != events.EventId)
             {
@@ -122,6 +122,29 @@ namespace AuthSystem.Controllers
         private bool EventExists(int id)
         {
             return _context.Events.Any(e => e.EventId == id);
+        }
+
+        [HttpPost]
+        public IActionResult UpdateRegistered(int eventId, string username)
+        {
+            var @event = _context.Events.FirstOrDefault(e => e.EventId == eventId);
+            if (@event == null)
+            {
+                return Json(new { success = false });
+            }
+
+            if (string.IsNullOrEmpty(@event.Registered))
+            {
+                @event.Registered = username;
+            }
+            else
+            {
+                @event.Registered += $", {username}";
+            }
+
+            _context.SaveChanges();
+
+            return Json(new { success = true, registered = @event.Registered });
         }
     }
 }
