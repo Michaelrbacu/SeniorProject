@@ -1,0 +1,58 @@
+﻿@model IEnumerable<SeniorProject.Models.Event>
+@Html.AntiForgeryToken()
+
+<h2>Event List</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Event Name</th>
+            <th>Start Time</th>
+            <th>End Time</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var eventItem in Model)
+        {
+            <tr>
+                <td>@eventItem.EventName</td>
+                <td>@eventItem.EventStart</td>
+                <td>@eventItem.EventEnd</td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = eventItem.EventId }) |
+                    <a href="#" class="delete-event" data-event-id="@eventItem.EventId">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('.delete-event').on('click', function (e) {
+                e.preventDefault();
+
+                var eventId = $(this).data('event-id');
+                var deleteUrl = '@Url.Action("Delete", "Event")' + '?id=' + eventId;
+                var rowToDelete = $(this).closest('tr');
+                var antiForgeryToken = $('input[name=__RequestVerificationToken]').val();
+
+                $.ajax({
+                    type: 'POST',
+                    url: deleteUrl,
+                    headers: {
+                        'RequestVerificationToken': antiForgeryToken
+                    },
+                    success: function () {
+                        rowToDelete.remove();
+                    },
+                    error: function () {
+                        alert('Error deleting event. Please try again.');
+                    }
+                });
+            });
+        });
+    </script>
+}

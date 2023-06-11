@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SeniorProject.Models;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace AuthSystem.Controllers
@@ -19,7 +20,7 @@ namespace AuthSystem.Controllers
         public async Task<IActionResult> List()
         {
             var events = await _context.Events.ToListAsync();
-            return View(events);
+            return View("~/Views/Home/List.cshtml", events);
         }
 
         // GET: Event/Create
@@ -42,6 +43,85 @@ namespace AuthSystem.Controllers
             return View(events);
         }
 
-        // ... other action methods ...
+        // GET: Event/Edit/{id}
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var events = await _context.Events.FindAsync(id);
+
+            if (events == null)
+            {
+                return NotFound();
+            }
+            return View(events);
+        }
+
+        // POST: Event/Edit/{id}
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, [Bind("EventId,EventName,EventStart,EventEnd")] Event events)
+        {
+            if (id != events.EventId)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(events);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!EventExists(events.EventId))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(List));
+            }
+            return View(events);
+        }
+
+        // POST: Event/Delete/{id}
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var events = await _context.Events.FindAsync(id);
+
+            if (events == null)
+            {
+                return Json(new { success = false });
+            }
+
+            _context.Events.Remove(events);
+            await _context.SaveChangesAsync();
+
+            return Json(new { success = true });
+        }
+
+        // GET: Event/GetEvents
+        [HttpGet]
+        public async Task<IActionResult> GetEvents()
+        {
+            var events = await _context.Events.ToListAsync();
+            return Json(events);
+        }
+
+        private bool EventExists(int id)
+        {
+            return _context.Events.Any(e => e.EventId == id);
+        }
     }
 }

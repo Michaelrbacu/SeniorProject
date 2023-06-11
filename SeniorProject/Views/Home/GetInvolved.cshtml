@@ -131,19 +131,25 @@
                         right: 'month,basicWeek,basicDay'
                     },
                     defaultView: 'month',
-                    events: [
-                        {
-                            title: 'Event 1',
-                            start: '2023-06-01'
-                        },
-                        {
-                            title: 'Event 2',
-                            start: '2023-06-02',
-                            end: '2023-06-02'
-                        }
-                    ]
-                })
-            })
+                    events: function (start, end, timezone, callback) {
+                        $.ajax({
+                            url: '/Event/GetEvents',
+                            dataType: 'json',
+                            success: function (data) {
+                                var events = [];
+                                for (var i = 0; i < data.length; i++) {
+                                    events.push({
+                                        title: data[i].eventName,
+                                        start: data[i].eventStart,
+                                        end: data[i].eventEnd
+                                    });
+                                }
+                                callback(events);
+                            }
+                        });
+                    }
+                });
+            });
         </script>
     }
     </script>

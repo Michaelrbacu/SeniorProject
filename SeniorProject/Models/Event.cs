@@ -7,8 +7,8 @@ namespace SeniorProject.Models
     {
         [Key]
         public int EventId { get; set; }
-        public string? EventName { get; set; }
-        public DateTime? EventStart { get; set; }
-        public DateTime? EventEnd { get; set; }
+        public string EventName { get; set; }
+        public DateTime EventStart { get; set; }
+        public DateTime EventEnd { get; set; }
     }
 }
