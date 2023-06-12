@@ -17,16 +17,17 @@ namespace AuthSystem.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly UserManager<ApplicationUser> userManager;
+        private readonly SignInManager<ApplicationUser> signInManager;
         private readonly AuthDbContext _context;
 
         public HomeController(ILogger<HomeController> logger, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, AuthDbContext context)
         {
             _logger = logger;
-            _userManager = userManager;
-            _signInManager = signInManager;
+            this.userManager = userManager;
+            this.signInManager = signInManager;
             _context = context;
+
         }
 
 
@@ -50,25 +51,13 @@ namespace AuthSystem.Controllers
 
             return RedirectToAction("Deleted");
         }
-
-        public IActionResult LoggedInUsers()
+        [Route("ListUsers")]
+        public IActionResult ListUsers()
         {
-            var loggedInUsers = _userManager.Users.Where(u => _signInManager.IsSignedIn(User)).ToList();
-            var viewModel = new AdminViewModel
-            {
-                Users = loggedInUsers
-            };
-
-            return View(viewModel);
+            var users = userManager.Users;
+            return View(users);
         }
 
-
-        [Route("UserList")]
-        public IActionResult UserList()
-        {
-            ViewBag.Active = "UserList";
-            return View();
-        }
         [Route("Portal")]
         public IActionResult Portal()
         {
@@ -147,7 +136,7 @@ namespace AuthSystem.Controllers
 
         public IActionResult Index()
         {
-            ViewData["UserID"]=_userManager.GetUserId(this.User);
+            ViewData["UserID"]=userManager.GetUserId(this.User);
             return View();
         }
 
