@@ -5,8 +5,11 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using SeniorProject.Areas.Admin.Models;
 using SeniorProject.Models;
 using System.Diagnostics;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace AuthSystem.Controllers
 {
@@ -15,12 +18,14 @@ namespace AuthSystem.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly AuthDbContext _context;
 
-        public HomeController(ILogger<HomeController> logger, UserManager<ApplicationUser> userManager, AuthDbContext context)
+        public HomeController(ILogger<HomeController> logger, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, AuthDbContext context)
         {
             _logger = logger;
             _userManager = userManager;
+            _signInManager = signInManager;
             _context = context;
         }
 
@@ -44,6 +49,17 @@ namespace AuthSystem.Controllers
             await _context.SaveChangesAsync();
 
             return RedirectToAction("Deleted");
+        }
+
+        public IActionResult LoggedInUsers()
+        {
+            var loggedInUsers = _userManager.Users.Where(u => _signInManager.IsSignedIn(User)).ToList();
+            var viewModel = new AdminViewModel
+            {
+                Users = loggedInUsers
+            };
+
+            return View(viewModel);
         }
 
 

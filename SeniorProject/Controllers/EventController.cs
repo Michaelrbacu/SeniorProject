@@ -125,26 +125,27 @@ namespace AuthSystem.Controllers
         }
 
         [HttpPost]
-        public IActionResult UpdateRegistered(int eventId, string username)
+        [ValidateAntiForgeryToken]
+        public ActionResult UpdateRegistered(int eventId, string registered)
         {
-            var @event = _context.Events.FirstOrDefault(e => e.EventId == eventId);
-            if (@event == null)
+            // Retrieve the event from the database using the provided event ID
+            var eventToUpdate = _context.Events.Find(eventId);
+
+            if (eventToUpdate == null)
             {
-                return Json(new { success = false });
+                // Event not found, return an error response
+                return Json(new { success = false, message = "Event not found." });
             }
 
-            if (string.IsNullOrEmpty(@event.Registered))
-            {
-                @event.Registered = username;
-            }
-            else
-            {
-                @event.Registered += $", {username}";
-            }
+            // Update the registered users for the event
+            eventToUpdate.Registered = registered;
 
+            // Save the changes to the database
             _context.SaveChanges();
 
-            return Json(new { success = true, registered = @event.Registered });
+            // Return a success response
+            return Json(new { success = true });
         }
+
     }
 }

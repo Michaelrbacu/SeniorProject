@@ -121,6 +121,8 @@
 
         <script>
             $(document).ready(function () {
+                var updatedRegistered = ''; // Variable to store updated registered users
+
                 $('#calendar').fullCalendar({
                     header: {
                         left: 'prev,next today',
@@ -157,20 +159,47 @@
                         $('#eventDescription').text(event.description);
                         $('#eventRegistered').text(event.registered);
 
-                        // Set up button click event to update the registered string
+                        // Update registered users when button is clicked
                         $('#updateRegisteredBtn').off('click').on('click', function () {
-                            var username = '@UserManager.GetUserName(User)';
                             var eventId = event.id;
+                            var registered = event.registered + ', ' + '@UserManager.GetUserName(User)';
 
                             // Make AJAX request to update the registered users
                             $.ajax({
                                 type: 'POST',
                                 url: '/Event/UpdateRegistered',
-                                data: { eventId: eventId, username: username },
+                                data: { eventId: eventId, registered: registered },
+                                headers: { 'RequestVerificationToken': $('input[name="__RequestVerificationToken"]').val() },
                                 success: function (response) {
                                     if (response.success) {
-                                        event.registered += ', ' + username;
-                                        $('#eventRegistered').text(event.registered);
+                                        event.registered = registered;
+                                        $('#eventRegistered').text(registered);
+                                        $('#eventModal').modal('hide');
+                                    } else {
+                                        alert('Failed to update registered users.');
+                                    }
+                                },
+                                error: function () {
+                                    alert('An error occurred while updating registered users.');
+                                }
+                            });
+                        });
+
+
+                        // Save updated registered users when save button is clicked
+                        $('#saveRegisteredBtn').off('click').on('click', function () {
+                            var eventId = event.id;
+                            var username = '@UserManager.GetUserName(User)';
+
+                            // Make AJAX request to update registered users
+                            $.ajax({
+                                type: 'POST',
+                                url: '/Event/UpdateRegistered',
+                                data: { eventId: eventId, registered: updatedRegistered },
+                                headers: { 'RequestVerificationToken': $('input[name="__RequestVerificationToken"]').val() },
+                                success: function (response) {
+                                    if (response.success) {
+                                        event.registered = updatedRegistered;
                                         $('#eventModal').modal('hide');
                                     } else {
                                         alert('Failed to update registered users.');
@@ -207,11 +236,14 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                         <button type="button" class="btn btn-primary" id="updateRegisteredBtn">Update Registered</button>
+                        <button type="button" class="btn btn-primary" id="saveRegisteredBtn">Save</button>
                     </div>
                 </div>
             </div>
         </div>
     }
+
+
 
 
 

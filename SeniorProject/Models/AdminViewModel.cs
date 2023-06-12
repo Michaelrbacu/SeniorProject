@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using AuthSystem.Areas.Identity.Data;
+using System.ComponentModel.DataAnnotations;
 
 
 namespace SeniorProject.Areas.Admin.Models
@@ -15,5 +16,9 @@ namespace SeniorProject.Areas.Admin.Models
         public string Name { get; set; }
 
         // Add any other properties you need for the admin model here
+
+        public List<ApplicationUser> Users { get; set; }
+
+
     }
 }
