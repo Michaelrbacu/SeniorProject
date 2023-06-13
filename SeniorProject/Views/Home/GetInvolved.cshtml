@@ -121,8 +121,6 @@
 
         <script>
             $(document).ready(function () {
-                var updatedRegistered = ''; // Variable to store updated registered users
-
                 $('#calendar').fullCalendar({
                     header: {
                         left: 'prev,next today',
@@ -153,59 +151,36 @@
                     eventClick: function (event) {
                         // Display event details in a modal
                         $('#eventModal').modal('show');
-                        $('#eventTitle').text(event.title);
-                        $('#eventStart').text(moment(event.start).format('YYYY-MM-DD HH:mm'));
-                        $('#eventEnd').text(moment(event.end).format('YYYY-MM-DD HH:mm'));
+                        $('#eventTitle').val(event.title);
+                        $('#eventStart').val(moment(event.start).format('YYYY-MM-DD HH:mm'));
+                        $('#eventEnd').val(moment(event.end).format('YYYY-MM-DD HH:mm'));
                         $('#eventDescription').text(event.description);
                         $('#eventRegistered').text(event.registered);
 
-                        // Update registered users when button is clicked
-                        $('#updateRegisteredBtn').off('click').on('click', function () {
+                        // Submit button click event handler
+                        $('#submitBtn').off('click').on('click', function () {
                             var eventId = event.id;
-                            var registered = event.registered + ', ' + '@UserManager.GetUserName(User)';
-
-                            // Make AJAX request to update the registered users
-                            $.ajax({
-                                type: 'POST',
-                                url: '/Event/UpdateRegistered',
-                                data: { eventId: eventId, registered: registered },
-                                headers: { 'RequestVerificationToken': $('input[name="__RequestVerificationToken"]').val() },
-                                success: function (response) {
-                                    if (response.success) {
-                                        event.registered = registered;
-                                        $('#eventRegistered').text(registered);
-                                        $('#eventModal').modal('hide');
-                                    } else {
-                                        alert('Failed to update registered users.');
-                                    }
-                                },
-                                error: function () {
-                                    alert('An error occurred while updating registered users.');
-                                }
-                            });
-                        });
-
-
-                        // Save updated registered users when save button is clicked
-                        $('#saveRegisteredBtn').off('click').on('click', function () {
-                            var eventId = event.id;
-                            var username = '@UserManager.GetUserName(User)';
+                            var registered = '@UserManager.GetUserName(User)';
+                            var updatedRegistered = $('#registeredInput').val();
 
                             // Make AJAX request to update registered users
                             $.ajax({
                                 type: 'POST',
                                 url: '/Event/UpdateRegistered',
-                                data: { eventId: eventId, registered: updatedRegistered },
+                                data: JSON.stringify({ eventId: eventId, registered: updatedRegistered ? updatedRegistered : registered }),
+                                contentType: 'application/json; charset=utf-8',
                                 headers: { 'RequestVerificationToken': $('input[name="__RequestVerificationToken"]').val() },
                                 success: function (response) {
                                     if (response.success) {
-                                        event.registered = updatedRegistered;
+                                        event.registered = updatedRegistered ? updatedRegistered : (event.registered + ', ' + registered);
+                                        $('#eventRegistered').text(event.registered);
                                         $('#eventModal').modal('hide');
                                     } else {
                                         alert('Failed to update registered users.');
                                     }
                                 },
-                                error: function () {
+                                error: function (jqXHR, textStatus, errorThrown) {
+                                    console.log('Error:', textStatus, errorThrown);
                                     alert('An error occurred while updating registered users.');
                                 }
                             });
@@ -214,37 +189,51 @@
                 });
             });
         </script>
+    }
 
-        <!-- Modal for displaying event details -->
-        <div class="modal fade" id="eventModal" tabindex="-1" role="dialog" aria-labelledby="eventModalLabel"
-             aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="eventModalLabel">Event Details</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+    <!-- Event modal -->
+    <div class="modal fade" id="eventModal" tabindex="-1" role="dialog" aria-labelledby="eventModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="eventModalLabel">Event Details</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" name="__RequestVerificationToken" value="@Html.AntiForgeryToken()">
+                    <div class="form-group">
+                        <label for="eventTitle">Title</label>
+                        <input type="text" class="form-control" id="eventTitle" readonly>
                     </div>
-                    <div class="modal-body">
-                        <p><strong>Title:</strong> <span id="eventTitle"></span></p>
-                        <p><strong>Start Time:</strong> <span id="eventStart"></span></p>
-                        <p><strong>End Time:</strong> <span id="eventEnd"></span></p>
-                        <p><strong>Description:</strong> <span id="eventDescription"></span></p>
-                        <p><strong>Registered:</strong> <span id="eventRegistered"></span></p>
+                    <div class="form-group">
+                        <label for="eventStart">Start</label>
+                        <input type="text" class="form-control" id="eventStart" readonly>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary" id="updateRegisteredBtn">Update Registered</button>
-                        <button type="button" class="btn btn-primary" id="saveRegisteredBtn">Save</button>
+                    <div class="form-group">
+                        <label for="eventEnd">End</label>
+                        <input type="text" class="form-control" id="eventEnd" readonly>
                     </div>
+                    <div class="form-group">
+                        <label for="eventDescription">Description</label>
+                        <textarea class="form-control" id="eventDescription" rows="3" readonly></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="eventRegistered">Registered</label>
+                        <p id="eventRegistered"></p>
+                    </div>
+                    <div class="form-group">
+                        <label for="registeredInput">Register</label>
+                        <input type="text" class="form-control" id="registeredInput">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="submitBtn">Submit</button>
                 </div>
             </div>
         </div>
-    }
-
-
-
+    </div>
 
 
 

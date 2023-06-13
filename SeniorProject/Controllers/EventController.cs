@@ -1,4 +1,5 @@
 ﻿using AuthSystem.Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SeniorProject.Models;
@@ -110,6 +111,33 @@ namespace AuthSystem.Controllers
 
             return Json(new { success = true });
         }
+        //submit at calender for register user
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UpdateRegistered(int eventId, string registered)
+        {
+            if (ModelState.IsValid)
+            {
+                var eventToUpdate = await _context.Events.FindAsync(eventId);
+
+                if (eventToUpdate == null)
+                {
+                    return Json(new { success = false });
+                }
+
+                eventToUpdate.Registered = registered;
+                _context.Update(eventToUpdate);
+                await _context.SaveChangesAsync();
+
+                return Json(new { success = true });
+            }
+            else
+            {
+                return Json(new { success = false });
+            }
+        }
+
 
         // GET: Event/GetEvents
         [HttpGet]
@@ -122,29 +150,6 @@ namespace AuthSystem.Controllers
         private bool EventExists(int id)
         {
             return _context.Events.Any(e => e.EventId == id);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult UpdateRegistered(int eventId, string registered)
-        {
-            // Retrieve the event from the database using the provided event ID
-            var eventToUpdate = _context.Events.Find(eventId);
-
-            if (eventToUpdate == null)
-            {
-                // Event not found, return an error response
-                return Json(new { success = false, message = "Event not found." });
-            }
-
-            // Update the registered users for the event
-            eventToUpdate.Registered = registered;
-
-            // Save the changes to the database
-            _context.SaveChanges();
-
-            // Return a success response
-            return Json(new { success = true });
         }
 
     }

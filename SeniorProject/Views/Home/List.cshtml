@@ -9,6 +9,8 @@
             <th>Event Name</th>
             <th>Start Time</th>
             <th>End Time</th>
+            <th>Description</th>
+            <th>Registered Users</th>
             <th>Actions</th>
         </tr>
     </thead>
@@ -21,7 +23,6 @@
                 <td>@eventItem.EventEnd</td>
                 <td>@eventItem.EventDescription</td>
                 <td>@eventItem.Registered</td>
-
                 <td>
                     @Html.ActionLink("Edit", "Edit", "Event", new { id = eventItem.EventId }, null)
                     <form class="delete-event-form" method="post" onsubmit="return confirm('Are you sure?')">
