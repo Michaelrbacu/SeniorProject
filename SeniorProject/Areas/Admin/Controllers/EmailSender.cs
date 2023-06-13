@@ -2,7 +2,6 @@
 using System.Net;
 using System.Net.Mail;
 using System.Threading.Tasks;
-using Mandrill.API.Endpoints;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.Extensions.Options;
 using SeniorProject.Services;
@@ -18,30 +17,35 @@ namespace SeniorProject.Areas.Admin.Controllers
             _emailSettings = emailSettings.Value;
         }
 
-        public async Task SendEmailAsync(string email, string subject, string messages)
+        public Task SendEmailAsync(string email, string subject, string message)
         {
             try
             {
-                MailAddress from = new MailAddress(_emailSettings.FromEmail, _emailSettings.FromName);
-                MailAddress to = new MailAddress(email);
-                MailMessage message = new MailMessage(from, to);
-                message.Body = messages;
-                message.Subject = subject;
-                message.IsBodyHtml = true;
-                string server = _emailSettings.Server;
-                SmtpClient client = new SmtpClient(server);
-                client.UseDefaultCredentials = false;
-                client.DeliveryMethod = SmtpDeliveryMethod.Network;
-                client.Port = Convert.ToInt16(_emailSettings.Port);
-                client.EnableSsl = Convert.ToBoolean(_emailSettings.UseSSL);
-                client.Credentials = new NetworkCredential(_emailSettings.Username, _emailSettings.Password);
-                client.Timeout = Convert.ToInt16(9000);
-                await client.SendMailAsync(message);
+                using (SmtpClient client = new SmtpClient(_emailSettings.Server, _emailSettings.Port))
+                {
+                    client.UseDefaultCredentials = false;
+                    client.Credentials = new NetworkCredential(_emailSettings.Username, _emailSettings.Password);
+                    client.EnableSsl = Convert.ToBoolean(_emailSettings.UseSSL);
+                    client.Timeout = Convert.ToInt32(_emailSettings.Timeout);
+
+                    using (MailMessage mailMessage = new MailMessage())
+                    {
+                        mailMessage.From = new MailAddress(_emailSettings.FromEmail, _emailSettings.FromName);
+                        mailMessage.To.Add(email);
+                        mailMessage.Subject = subject;
+                        mailMessage.Body = message;
+                        mailMessage.IsBodyHtml = true;
+
+                        client.Send(mailMessage);
+                    }
+                }
             }
             catch (Exception ex)
             {
                 throw;
             }
+
+            return Task.CompletedTask;
         }
     }
 }

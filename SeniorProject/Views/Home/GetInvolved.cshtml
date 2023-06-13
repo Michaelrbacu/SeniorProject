@@ -149,17 +149,20 @@
                         });
                     },
                     eventClick: function (event) {
+                        console.log(event);
+                        debugger
                         // Display event details in a modal
                         $('#eventModal').modal('show');
                         $('#eventTitle').val(event.title);
                         $('#eventStart').val(moment(event.start).format('YYYY-MM-DD HH:mm'));
                         $('#eventEnd').val(moment(event.end).format('YYYY-MM-DD HH:mm'));
                         $('#eventDescription').text(event.description);
-                        $('#eventRegistered').text(event.registered);
+                        $('#eventRegistered').text(event.registered || "");
 
                         // Submit button click event handler
                         $('#submitBtn').off('click').on('click', function () {
-                            var eventId = event.id;
+
+                            var eventId = event._id;
                             var registered = '@UserManager.GetUserName(User)';
                             var updatedRegistered = $('#registeredInput').val();
 
@@ -167,12 +170,11 @@
                             $.ajax({
                                 type: 'POST',
                                 url: '/Event/UpdateRegistered',
-                                data: JSON.stringify({ eventId: eventId, registered: updatedRegistered ? updatedRegistered : registered }),
-                                contentType: 'application/json; charset=utf-8',
+                                data: { eventId: eventId, registered: updatedRegistered ? updatedRegistered : registered },                                
                                 headers: { 'RequestVerificationToken': $('input[name="__RequestVerificationToken"]').val() },
                                 success: function (response) {
                                     if (response.success) {
-                                        event.registered = updatedRegistered ? updatedRegistered : (event.registered + ', ' + registered);
+                                        event.registered = (event.registered || "") + ', ' + (updatedRegistered ? updatedRegistered : registered);
                                         $('#eventRegistered').text(event.registered);
                                         $('#eventModal').modal('hide');
                                     } else {

@@ -11,6 +11,9 @@ using SeniorProject.Models;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Threading.Tasks;
+using SeniorProject.Areas.Identity.EmailService;
+
+
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("AuthDbContextConnection") ?? throw new InvalidOperationException("Connection string 'AuthDbContextConnection' not found.");
@@ -30,7 +33,11 @@ builder.Services.AddAuthentication()
         options.ClientId = builder.Configuration["Authentication:Google:ClientId"];
         options.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
     });
-
+var emailConfig = builder.Configuration
+           .GetSection("EmailSettings")
+           .Get<EmailConfiguration>();
+builder.Services.AddSingleton(emailConfig);
+builder.Services.AddScoped<EmailSender>();
 builder.Services.Configure<IdentityOptions>(options =>
 {
     options.Password.RequireUppercase = false;
@@ -38,7 +45,8 @@ builder.Services.Configure<IdentityOptions>(options =>
 
 // Register the EmailSettings and EmailSender services
 builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
-builder.Services.AddTransient<EmailSender>();
+builder.Services.AddTransient<IEmailSender, EmailSender>();
+
 builder.Services.AddRazorPages();
 var app = builder.Build();
 
@@ -62,38 +70,38 @@ app.MapRazorPages();
 app.Run();
 
 // Define the EmailSender class outside the WebApplication builder
-public class EmailSender
-{
-    private readonly EmailSettings _emailSettings;
+//public class EmailSender
+//{
+//    private readonly EmailSettings _emailSettings;
 
-    public EmailSender(IOptions<EmailSettings> emailSettings)
-    {
-        _emailSettings = emailSettings.Value;
-    }
+//    public EmailSender(IOptions<EmailSettings> emailSettings)
+//    {
+//        _emailSettings = emailSettings.Value;
+//    }
 
-    public async Task SendEmailAsync(string email, string subject, string messages)
-    {
-        try
-        {
-            MailAddress from = new MailAddress(_emailSettings.FromEmail, _emailSettings.FromName);
-            MailAddress to = new MailAddress(email);
-            MailMessage message = new MailMessage(from, to);
-            message.Body = messages;
-            message.Subject = subject;
-            message.IsBodyHtml = false;
-            string server = _emailSettings.Server;
-            SmtpClient client = new SmtpClient(server);
-            client.UseDefaultCredentials = Convert.ToBoolean("false");
-            client.DeliveryMethod = SmtpDeliveryMethod.Network;
-            client.Port = Convert.ToInt16(_emailSettings.Port);
-            client.EnableSsl = Convert.ToBoolean(_emailSettings.UseSSL);
-            client.Credentials = new NetworkCredential(_emailSettings.Username, _emailSettings.Password);
-            client.Timeout = Convert.ToInt16(9000);
-            await client.SendMailAsync(message);
-        }
-        catch (Exception ex)
-        {
-            throw;
-        }
-    }
-}
+//    public async Task SendEmailAsync(string email, string subject, string messages)
+//    {
+//        try
+//        {
+//            MailAddress from = new MailAddress(_emailSettings.FromEmail, _emailSettings.FromName);
+//            MailAddress to = new MailAddress(email);
+//            MailMessage message = new MailMessage(from, to);
+//            message.Body = messages;
+//            message.Subject = subject;
+//            message.IsBodyHtml = false;
+//            string server = _emailSettings.Server;
+//            SmtpClient client = new SmtpClient(server);
+//            client.UseDefaultCredentials = Convert.ToBoolean("false");
+//            client.DeliveryMethod = SmtpDeliveryMethod.Network;
+//            client.Port = Convert.ToInt16(_emailSettings.Port);
+//            client.EnableSsl = Convert.ToBoolean(_emailSettings.UseSSL);
+//            client.Credentials = new NetworkCredential(_emailSettings.Username, _emailSettings.Password);
+//            client.Timeout = Convert.ToInt16(9000);
+//            await client.SendMailAsync(message);
+//        }
+//        catch (Exception ex)
+//        {
+//            throw;
+//        }
+//    }
+//}

@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 public class ContactUsController : Controller
 {
-    private readonly EmailSender _emailSender;
+    private readonly IEmailSender _emailSender;
 
-    public ContactUsController(EmailSender emailSender)
+    public ContactUsController(IEmailSender emailSender)
     {
         _emailSender = emailSender;
     }
@@ -27,7 +27,7 @@ public class ContactUsController : Controller
             var emailMessage = $"Name: {model.Name}\nEmail: {model.Email}\nMessage: {model.Message}";
 
             // Change this line to use SendEmailAsync and await the result
-            await _emailSender.SendEmailAsync("earthcareinitiative@outlook.com", emailSubject, emailMessage);
+            bool isSend = _emailSender.SendEmail("earthcareinitiative@outlook.com", emailSubject, emailMessage);
 
             var confirmationModel = new ContactUsConfirmationViewModel
             {

@@ -111,11 +111,11 @@ namespace AuthSystem.Controllers
 
             return Json(new { success = true });
         }
-        //submit at calender for register user
 
+        // POST: Event/UpdateRegistered
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> UpdateRegistered(int eventId, string registered)
+        public async Task<IActionResult> UpdateRegistered(string eventId, string registered)
         {
             if (ModelState.IsValid)
             {
@@ -126,7 +126,7 @@ namespace AuthSystem.Controllers
                     return Json(new { success = false });
                 }
 
-                eventToUpdate.Registered = registered;
+                eventToUpdate.Registered += ", " + registered;
                 _context.Update(eventToUpdate);
                 await _context.SaveChangesAsync();
 
@@ -137,7 +137,6 @@ namespace AuthSystem.Controllers
                 return Json(new { success = false });
             }
         }
-
 
         // GET: Event/GetEvents
         [HttpGet]

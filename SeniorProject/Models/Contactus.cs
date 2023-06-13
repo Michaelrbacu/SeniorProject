@@ -27,7 +27,7 @@ public class HomeController : Controller
             var emailMessage = $"Name: {model.Name}\nEmail: {model.Email}\nMessage: {model.Message}";
 
             // Change this line to use SendEmailAsync and await the result
-            await _emailSender.SendEmailAsync("earthcareinitiative@outlook.com", emailSubject, emailMessage);
+            bool  isSend=_emailSender.SendEmail("earthcareinitiative@outlook.com", emailSubject, emailMessage);
 
             return RedirectToAction("ContactUsConfirmation");
         }

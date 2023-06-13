@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.AspNetCore.Identity.UI.Services;
-using SeniorProject.Areas.Admin.Controllers;
+using SeniorProject.Areas.Identity.EmailService;
 
 namespace AuthSystem.Areas.Identity.Pages.Account
 {
@@ -136,7 +136,7 @@ namespace AuthSystem.Areas.Identity.Pages.Account
                     // Send a welcome email to the user - Added this block
                     string subject = "Welcome to Earth Care Initiative";
                     string message = "Thank you for joining Earth Care Initiative! We are excited to have you on board.";
-                    await _emailSender.SendEmailAsync(user.Email, subject, message);
+                    bool isSend = _emailSender.SendEmail(user.Email, subject, message);
 
                     _logger.LogInformation("User created a new account with password.");
 
