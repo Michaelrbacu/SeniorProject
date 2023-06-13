@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SeniorProject.Areas.Identity.EmailService;
 using SeniorProject.Services;
 using System.Threading.Tasks;
 
@@ -18,13 +19,14 @@ public class ContactUsController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> Index(ContactUsViewModel model)
+    public async Task<IActionResult> ContactUs(ContactUsViewModel model)
     {
         if (ModelState.IsValid)
         {
             var emailSubject = $"New Contact Us Message from {model.Name}";
             var emailMessage = $"Name: {model.Name}\nEmail: {model.Email}\nMessage: {model.Message}";
 
+            // Change this line to use SendEmailAsync and await the result
             await _emailSender.SendEmailAsync("earthcareinitiative@outlook.com", emailSubject, emailMessage);
 
             var confirmationModel = new ContactUsConfirmationViewModel
@@ -34,15 +36,15 @@ public class ContactUsController : Controller
                 Message = model.Message
             };
 
-            return View("Confirmation", confirmationModel);
+            return RedirectToAction("Confirmation");
         }
 
         return View(model);
     }
 
     [HttpGet]
-    public IActionResult Confirmation(ContactUsConfirmationViewModel model)
+    public IActionResult Confirmation()
     {
-        return View(model);
+        return View();
     }
 }

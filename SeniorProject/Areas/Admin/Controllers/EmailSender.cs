@@ -2,6 +2,7 @@
 using System.Net;
 using System.Net.Mail;
 using System.Threading.Tasks;
+using Mandrill.API.Endpoints;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.Extensions.Options;
 using SeniorProject.Services;
@@ -39,7 +40,6 @@ namespace SeniorProject.Areas.Admin.Controllers
             }
             catch (Exception ex)
             {
-                // You can log the exception here or handle it according to your project requirements
                 throw;
             }
         }
