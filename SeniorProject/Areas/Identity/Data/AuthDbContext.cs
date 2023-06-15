@@ -23,9 +23,6 @@ namespace AuthSystem.Data
         {
             base.OnModelCreating(builder);
 
-            // Configure the ApplicationUser entity to use the "AspNetUsers" table
-            builder.Entity<ApplicationUser>().ToTable("AspNetUsers");
-
             builder.Entity<Donation>()
                 .Property(d => d.Amount)
                 .HasColumnType("decimal(18,2)");
@@ -52,13 +49,12 @@ namespace AuthSystem.Data
                     EventDescription = "this is a test",
                     Registered = "michaelrbacu2@gmail.com"
                 });
-
             builder.Entity<Admin>().HasData(
-                new Admin
-                {
-                    AdminId = 1,
-                    Email = "test@example.com",
-                });
+    new Admin
+    {
+        AdminId = 1,
+        Email = "test@example.com",
+    });
         }
     }
 }

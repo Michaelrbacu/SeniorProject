@@ -115,7 +115,7 @@ namespace AuthSystem.Controllers
         // POST: Event/UpdateRegistered
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> UpdateRegistered(int eventId, string registered)
+        public async Task<IActionResult> UpdateRegistered(string eventId, string registered)
         {
             if (ModelState.IsValid)
             {

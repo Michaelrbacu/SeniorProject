@@ -135,7 +135,7 @@
                                 </form>
                             </li>
                         }
-                        @if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin") || UserManager.GetUserName(User) == "admin@cpt275.beausanders.org")
+                        @if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
                         {
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="adminDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
