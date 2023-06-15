@@ -13,8 +13,6 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Threading.Tasks;
 using SeniorProject.Areas.Identity.EmailService;
 
-
-
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("AuthDbContextConnection") ?? throw new InvalidOperationException("Connection string 'AuthDbContextConnection' not found.");
 
@@ -33,6 +31,7 @@ builder.Services.AddAuthentication()
         options.ClientId = builder.Configuration["Authentication:Google:ClientId"];
         options.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
     });
+
 var emailConfig = builder.Configuration
            .GetSection("EmailSettings")
            .Get<EmailConfiguration>();
@@ -46,6 +45,14 @@ builder.Services.Configure<IdentityOptions>(options =>
 // Register the EmailSettings and EmailSender services
 builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
 builder.Services.AddTransient<IEmailSender, EmailSender>();
+
+// Add code to create the "ADMIN" role if it doesn't exist
+var serviceProvider = builder.Services.BuildServiceProvider();
+var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+if (!await roleManager.RoleExistsAsync("ADMIN"))
+{
+    await roleManager.CreateAsync(new IdentityRole("ADMIN"));
+}
 
 builder.Services.AddRazorPages();
 var app = builder.Build();
@@ -66,6 +73,20 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 app.MapRazorPages();
+
+// Add middleware to assign admin role to user
+//app.Use(async (context, next) =>
+//{
+//    var userManager = context.RequestServices.GetService<UserManager<ApplicationUser>>();
+//    var adminUser = await userManager.FindByEmailAsync("admin@cpt275.beausanders.org");
+
+//    if (!await userManager.IsInRoleAsync(adminUser, "Admin"))
+//    {
+//        await userManager.AddToRoleAsync(adminUser, "Admin");
+//    }
+
+//    await next.Invoke();
+//});
 
 app.Run();
 

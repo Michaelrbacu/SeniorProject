@@ -120,6 +120,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.0/fullcalendar.min.js"></script>
 
         <script>
+           // let eventId = 0;
             $(document).ready(function () {
                 $('#calendar').fullCalendar({
                     header: {
@@ -135,8 +136,10 @@
                             success: function (data) {
                                 var events = [];
                                 for (var i = 0; i < data.length; i++) {
+                                    debugger
+                                   // eventId: data[i].eventId,
                                     events.push({
-                                        id: data[i].eventID,
+                                        id: data[i].eventId,
                                         title: data[i].eventName,
                                         start: data[i].eventStart,
                                         end: data[i].eventEnd,
@@ -162,10 +165,10 @@
                         // Submit button click event handler
                         $('#submitBtn').off('click').on('click', function () {
 
-                            var eventId = event._id;
+                            var eventId = event.id;
                             var registered = '@UserManager.GetUserName(User)';
                             var updatedRegistered = $('#registeredInput').val();
-
+                            debugger
                             // Make AJAX request to update registered users
                             $.ajax({
                                 type: 'POST',
