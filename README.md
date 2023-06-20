@@ -29,5 +29,5 @@ This is a web-based management system developed as a senior project for a local 
 - Explore the different features and functionalities available to your role.
 - Perform actions like adding members, managing donations, scheduling events, and generating reports.
 - Refer to the documentation or in-line comments for further assistance.
-- You can test admin functionality by using the admin login - Username: admin@cpt275.beausanders.org | Password: teamProjeck275!
+- You can test admin functionality by using the admin login - Username: admin@mrbgvltec.com | Password: teamProjeck275!
 
