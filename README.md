@@ -1,5 +1,7 @@
+
 User
 # Non-Profit Organization Management System (Senior Project)
+This was not the final version of the project submitted since that contains keys and such that shouldn't be public. So it is not as polished as our final submission since we moved the project to a private repo after hosting it.
 
 This is a web-based management system developed as a senior project for a local non-profit organization. The system allows for efficient organization and management of members, events, projects, dues and donations, mailing lists, and other activities related to the non-profit. The primary goal is to create a customized solution tailored to the specific needs of the organization, with a strong focus on data security.
 
